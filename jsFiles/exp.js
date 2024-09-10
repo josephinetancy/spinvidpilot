@@ -145,8 +145,8 @@ console.log(highMIwheel[0])
     const highMIEmotion = getEmotion(highMIwheel[0]);
     const lowMIEmotion = getEmotion(lowMIwheel[0]);
 
-    document.body.innerHTML += `<ul>${highMIDescription.join('')}</ul>`;
-    document.body.innerHTML += `<ul>${lowMIDescription.join('')}</ul>`;
+ //   document.body.innerHTML += `<ul>${highMIDescription.join('')}</ul>`;
+ //   document.body.innerHTML += `<ul>${lowMIDescription.join('')}</ul>`;
 
 p.preloadHighMI = {
     type: jsPsychPreload,
