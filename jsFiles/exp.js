@@ -151,7 +151,7 @@ console.log(highMIwheel[0])
 p.preloadHighMI = {
     type: jsPsychPreload,
     video: highMIVideoPaths,
-    message: `<p>Now loading the first wheel... </p> <p> As a reminder, the wheel will show the following accounts:</p><ul>${highMIDescription.join('')}</ul><br>`,
+    message: `<p>Now loading the first wheel... </p> <p> As a reminder, you'll be spinning this wheel: </p><p>${highpreviewWheel}</p></ul><br>`,
     on_success: function(file) {
         console.log('Loaded: ', file);
     },
@@ -176,7 +176,7 @@ p.preloadHighMI_examples = {
 p.preloadLowMI = {
         type: jsPsychPreload,
         video: lowMIVideoPaths,
-        message: `<p> Now loading the second wheel... </p> <p> As a reminder, the wheel will show the following accounts:</p>${lowMIDescription.join('')}<br>`,
+        message: `<p> Now loading the second wheel... </p> <p> As a reminder, you'll be spinning this wheel: </p><p>${lowpreviewWheel}<br>`,
         on_success: function(file) {
             console.log('Loaded: ', file);
     }
@@ -373,7 +373,6 @@ MORE WHEEL SET UP
             <video src= "${lowMIexamples[3]}" style="width:60%; height:60%;" controls>
                 Your browser does not support the video tag.
             </video>
-            <p>Click "Next" to start playing the second wheel.</p>
             </p>
         </div>`
         ],
