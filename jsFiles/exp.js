@@ -953,6 +953,14 @@ p.preloadLowMI_examples = {
 }());
 
 
+const save_data = {
+    type: jsPsychPipe,
+    action: "save",
+    experiment_id: "m8l781TEih2C",
+    filename: filename,
+    data_string: ()=>jsPsych.data.get().csv()
+              };
+
 
 const timeline = [
     exp.consent,
