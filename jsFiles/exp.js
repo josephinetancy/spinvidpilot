@@ -924,15 +924,6 @@ p.preloadLowMI_examples = {
             },
         }; 
 
-        const end = {
-            type: jsPsychHtmlButtonResponse,
-            stimulus: '<p>Thank you! Please press the button to submit your response.</p>',
-            choices: ['Submit!'],
-            on_finish: (data) => {
-                saveSurveyData(data); 
-            },
-        };
-
         const demos = {
             timeline: [taskComplete, gender, age, ethnicity, english, finalWord, pid]
         };
@@ -947,6 +938,15 @@ p.preloadLowMI_examples = {
     *   SAVE DATA
     *
     */
+
+    exp.end = {
+        type: jsPsychHtmlButtonResponse,
+        stimulus: '<p>Thank you! Please press the button to submit your response.</p>',
+        choices: ['Submit!'],
+        on_finish: (data) => {
+            saveSurveyData(data); 
+            },
+        };
 
 
    p.save_data = {
@@ -987,7 +987,8 @@ const timeline = [
    exp.task_lowMI, 
    exp.flowMeasure2,
    exp.demographics,
-   exp.save_data]; 
+   exp.save_data
+   exp.end]; 
 
 
 jsPsych.run(timeline);
