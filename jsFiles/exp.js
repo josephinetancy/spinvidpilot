@@ -142,58 +142,6 @@ function getdescripExample(wheel) {
  //   document.body.innerHTML += `<ul>${highMIDescription.join('')}</ul>`;
  //   document.body.innerHTML += `<ul>${lowMIDescription.join('')}</ul>`;
 
-p.preloadHighMI = {
-    type: jsPsychPreload,
-    video: highMIVideoPaths,
-    message: `<p>Now loading the first wheel... </p> <p> As a reminder, you'll be spinning this wheel: </p><p>${highpreviewWheel}</p></ul><br>`,
-    on_success: function(file) {
-        console.log('Loaded: ', file);
-    },
-    on_error: function(file) {
-        console.error('Failed to load:', file);
-    }
-};
-
-
-p.preloadHighMI_examples = {
-    type: jsPsychPreload,
-    video: highMIexamples,
-    message: ` <p>Now loading example videos for Round 1... </p><p>${highpreviewWheel}</p>`,
-    on_success: function(file) {
-        console.log('Loaded: ', file);
-    },
-    on_error: function(file) {
-        console.error('Failed to load:', file);
-    }
-};
-
-p.preloadLowMI = {
-        type: jsPsychPreload,
-        video: lowMIVideoPaths,
-        message: `<p> Now loading the second wheel... </p> <p> As a reminder, you'll be spinning this wheel: </p><p>${lowpreviewWheel}<br>`,
-        on_success: function(file) {
-            console.log('Loaded: ', file);
-    }
-};
-
-p.preloadLowMI_examples = {
-    type: jsPsychPreload,
-    video: lowMIexamples,
-    message: `<p>Now loading example videos for Round 2... </p><p>${lowpreviewWheel}</p>`,
-    on_success: function(file) {
-        console.log('Loaded: ', file);
-    },
-    on_error: function(file) {
-        console.error('Failed to load:', file);
-    }
-};
-
-/* 
-
-MORE WHEEL SET UP
-
-*/
-
     let scoreTracker = 0; // track current score
 
     let round = 1;  // track current round
@@ -257,7 +205,6 @@ MORE WHEEL SET UP
             data.shortName = shortName;
             console.log(data);
             spin_num--;
-        //    scoreTracker = data.score
         }
     };
 
@@ -287,9 +234,10 @@ MORE WHEEL SET UP
         intro_preChk: [
             `<div class='parent'>
                 <p><strong> Welcome to "Spin the Wheel"! </strong></p>
-                <p>In this study, you'll spin a wheel and report your experience. </p> 
+                <p>We're interested in your response and thoughts about a game of chance, where outcomes are random rather than controlled. </p>
+                <p>Specifically, you'll play a game of chance called spin a wheel. </p> 
                 <p>To add a fun twist, you'll watch a Twitter video after each spin. </p>
-                <img src="./img/spin.gif" style="width:100%; height:auto;">
+                <img src="./img/spin.gif" style="width:65%; height:auto;">
             </div>`,
 
             `<div class='parent'>
@@ -410,7 +358,7 @@ MORE WHEEL SET UP
 
         intro_DescriptionsHigh_example2: [
             `<div class='parent'>
-            <<p>Below is a video from ${highMIDescripExamples[2]}'s feed. </p>
+            <p>Below is a video from ${highMIDescripExamples[2]}'s feed. </p>
              <p> Watch the video to get a sense of the type of content that ${highMIDescripExamples[2]} posts. </p>
             <p>Please make sure your volume is turned on. </p>
             <video src= "${highMIexamples[2]}" style="width:60%; height:60%;" controls>
@@ -465,7 +413,6 @@ MORE WHEEL SET UP
             preamble: `<div class='parent'>
                <p> For Round 1, you'll be spinning this wheel:</p> 
                 <p>${highpreviewWheel}</p>
-                <br>
                 <p> Before you continue, please answer the following questions: </p>
                 </div>`,
             questions: [
@@ -741,57 +688,160 @@ MORE WHEEL SET UP
         }; 
 
        
-      
-    // trial: flow DV
-    const flowMeasure = {
+    const FlowScale = ['0<br>Not at all', '1<br>', '2<br>', '3<br>', '4<br>', '5<br>', '6<br>', '7<br>','8<br>Extremely'];
+    
+    p.flowMeasure1 = {
         type: jsPsychSurveyLikert,
+        preamble: 
+        `<div style='padding-top: 50px; width: 900px; font-size:16px'> 
+            <p>How immersed and engaged did you feel during Round 1 of Spin the Wheel? </p>
+            <p>To report how immersed and engaged you felt, please answer the following questions.</p>
+        </div>`,
         questions: [
-            {prompt: `During the last round of Spin the Wheel,<br>to what extent did you feel immersed and engaged in what you were doing?`,
-            name: `dv_value`,
-            labels: ['0<br>A little', '1', '2', '3', '4', '5', '6', '7', '8', '9', '10<br>Extremely']},
+        {
+            prompt: `How immersive was Round 1 of Spin the Wheel?`,
+            name: `flow_0high`,
+            labels: FlowScale,
+            required: true, 
+        },
+        {
+            prompt: `How engaging was Round 1 of Spin the Wheel?`,
+            name: `flow_1high`,
+            labels: FlowScale,
+            required: true,
+        },
+        {
+            prompt: `How engrossing was Round 1 of Spin the Wheel?`,
+            name: `flow_2high`,
+            labels: FlowScale,
+            required: true,
+        },
+        {
+            prompt: `How boring was Round 1 of Spin the Wheel?`,
+            name: `flow_3high`,
+            labels: FlowScale,
+            required: true,
+        },
         ],
         randomize_question_order: false,
-        scale_width: 600,data: {arrangement: jsPsych.timelineVariable('arrangement'), wheel: jsPsych.timelineVariable('wheel')},
+        scale_width: 600,
         on_finish: function(data) {
             data.round = round;
             spin_num = remainingSpinsReset;
- //           let scoreArray = jsPsych.data.get().select('score').values;
- //           let outcomesArray = jsPsych.data.get().select('outcomes').values;
- //           data.score = scoreArray[scoreArray.length - 1];
-//          data.outcomes = outcomesArray[outcomesArray.length - 1];
             saveSurveyData(data);
         }
     };
 
+    p.flowMeasure2 = {
+        type: jsPsychSurveyLikert,
+        preamble: 
+        `<div style='padding-top: 50px; width: 900px; font-size:16px'> 
+            <p>How immersed and engaged did you feel during Round 2 of Spin the Wheel? </p>
+            <p>To report how immersed and engaged you felt, please answer the following questions.</p>
+        </div>`,
+        questions: [
+        {
+            prompt: `How immersive was Round 2 of Spin the Wheel?`,
+            name: `flow_0low`,
+            labels: FlowScale,
+            required: true, 
+        },
+        {
+            prompt: `How engaging was Round 2 of Spin the Wheel?`,
+            name: `flow_1low`,
+            labels: FlowScale,
+            required: true,
+        },
+        {
+            prompt: `How engrossing was Round 2 of Spin the Wheel?`,
+            name: `flow_2low`,
+            labels: FlowScale,
+            required: true,
+        },
+        {
+            prompt: `How boring was Round 2 of Spin the Wheel?`,
+            name: `flow_3low`,
+            labels: FlowScale,
+            required: true,
+        },
+        ],
+        randomize_question_order: false,
+        scale_width: 600,
+        on_finish: function(data) {
+            data.round = round;
+            spin_num = remainingSpinsReset;
+            saveSurveyData(data);
+        }
+    };
 
     
-    // trial: happiness DV
+    // emotion measure
     const emotionMeasure = {
         type: jsPsychSurveyMultiSelect,
         questions: [
             {
                 prompt: `Which emotion(s) did you feel while watching the video? (Select all that apply.)`,
-                options: ['Amusement', 'Affection/Warmth', 'Anger', 'Disgust', 'Fear', 'Embarrassment', 'Pride', 'Sadness', 'None of the above'],
+                options: ['Affection/Warmth', 'Amusement', 'Anger', 'Annoyance', 'Awe', 'Disgust', 'Fear', 'Embarrassment', 'Outrage','Pride', 'Sadness', 'None of the above'],
                 required: true },
         ],
         randomize_question_order: false,
         scale_width: 600,
-        data: {ev: jsPsych.timelineVariable('ev'), var: jsPsych.timelineVariable('var'), arrangement: jsPsych.timelineVariable('arrangement')},
+        data: {arrangement: jsPsych.timelineVariable('arrangement')},
         on_finish: function(data) {
             data.round = round;
- //           let scoreArray = jsPsych.data.get().select('score').values;
- //           let outcomesArray = jsPsych.data.get().select('outcomes').values;
- //           data.score = scoreArray[scoreArray.length - 2];
-  //          data.outcomes = outcomesArray[outcomesArray.length - 2];
             saveSurveyData(data);
             round++;
         }
     };
 
-    dv = flowMeasure;
-
 
     // timeline: main task
+
+    p.preloadHighMI = {
+    type: jsPsychPreload,
+    video: highMIVideoPaths,
+    message: `<p>Now loading the first wheel... </p> <p> As a reminder, you'll be spinning this wheel: </p><p>${highpreviewWheel}</p></ul><br>`,
+    on_success: function(file) {
+        console.log('Loaded: ', file);
+    },
+    on_error: function(file) {
+        console.error('Failed to load:', file);
+    }
+};
+
+
+p.preloadHighMI_examples = {
+    type: jsPsychPreload,
+    video: highMIexamples,
+    message: ` <p>Now loading example videos for Round 1... </p><p>${highpreviewWheel}</p>`,
+    on_success: function(file) {
+        console.log('Loaded: ', file);
+    },
+    on_error: function(file) {
+        console.error('Failed to load:', file);
+    }
+};
+
+p.preloadLowMI = {
+        type: jsPsychPreload,
+        video: lowMIVideoPaths,
+        message: `<p> Now loading the second wheel... </p> <p> As a reminder, you'll be spinning this wheel: </p><p>${lowpreviewWheel}<br>`,
+        on_success: function(file) {
+            console.log('Loaded: ', file);
+    }
+};
+
+p.preloadLowMI_examples = {
+    type: jsPsychPreload,
+    video: lowMIexamples,
+    message: `<p>Now loading example videos for Round 2... </p><p>${lowpreviewWheel}</p>`,
+    on_success: function(file) {
+        console.log('Loaded: ', file);
+    },
+    on_error: function(file) {
+        console.error('Failed to load:', file);
+    }
+};
 
 
     p.task_highMI = {
@@ -821,101 +871,6 @@ MORE WHEEL SET UP
             pages: html.postTask,
             show_clickable_nav: true,
             post_trial_gap: 500,
-        };
-
-        const genFlowScale = ['-2<br>Totally<br>Disagree', '-1<br>Disagree', '0<br>Neither agree<br>nor disagree', '1<br>Agree', '2<br>Totally<br>Agree'];
-
-        const flowGenQuestions = {
-            type: jsPsychSurveyLikert,
-            preamble:
-                `<div style='padding-top: 50px; width: 900px; font-size:16px'>
-                    <p>Please express the extent to which you disagree or agree with each statement.</p>
-                </div>`,
-            questions: [
-                {
-                    prompt: `I enjoy challenging tasks/activities that require a lot of focus.`,
-                    name: `genFlow_1`,
-                    labels: genFlowScale,
-                    required: true,
-                },
-                {
-                    prompt: `When I am focused on a task/activity, I quickly tend to forget my surroundings (other people, time, and place).`,
-                    name: `genFlow_2`,
-                    labels: genFlowScale,
-                    required: true,
-                },
-                {
-                    prompt: `I usually experience a good flow when I do something (things that are neither too easy nor too difficult for me).`,
-                    name: `genFlow_3`,
-                    labels: genFlowScale,
-                    required: true,
-                },
-                {
-                    prompt: `I have several different areas of interest.`,
-                    name: `genFlow_4`,
-                    labels: genFlowScale,
-                    required: true,
-                },
-                {
-                    prompt: `It is difficult for me to walk away from or quit a project I am currently working on.`,
-                    name: `genFlow_5`,
-                    labels: genFlowScale,
-                    required: true,
-                },
-                {
-                    prompt: `I become stressed in the face of difficult/challenging tasks.`,
-                    name: `genFlow_6r`,
-                    labels: genFlowScale,
-                    required: true,
-                },
-                {
-                    prompt: `It is difficult for me to maintain concentration over time.`,
-                    name: `genFlow_7r`,
-                    labels: genFlowScale,
-                    required: true,
-                },
-                {
-                    prompt: `I quickly become tired of the things I do.`,
-                    name: `genFlow_8r`,
-                    labels: genFlowScale,
-                    required: true,
-                },
-                {
-                    prompt: `I am usually satisfied with the results of my efforts across various tasks (I experience feelings of mastery).`,
-                    name: `genFlow_9`,
-                    labels: genFlowScale,
-                    required: true,
-                },
-                {
-                    prompt: `When I focus on something, I often forget to take a break.`,
-                    name: `genFlow_10`,
-                    labels: genFlowScale,
-                    required: true,
-                },
-                {
-                    prompt: `I get bored easily.`,
-                    name: `genFlow_11r`,
-                    labels: genFlowScale,
-                    required: true,
-                },
-                {
-                    prompt: `My daily tasks are exhausting rather than stimulating.`,
-                    name: `genFlow_12r`,
-                    labels: genFlowScale,
-                    required: true,
-                },
-                {
-                    prompt: `I develop an interest for most of the things I do in life.`,
-                    name: `genFlow_13`,
-                    labels: genFlowScale,
-                    required: true,
-                },
-            ],
-            randomize_question_order: false,
-            scale_width: 500,
-            on_finish: (data) => {
-                saveSurveyData(data); 
-            },
         };
 
         const gender = {
@@ -1000,10 +955,10 @@ MORE WHEEL SET UP
 
 
 const timeline = [
-   // exp.consent,
+    exp.consent,
    exp.intro_preChk,
     exp.intro, 
-    exp.intro_DescriptionsHigh,
+   exp.intro_DescriptionsHigh,
     exp.preloadHighMI_examples, 
     exp.intro_DescriptionsHigh_example0,
     exp.intro_DescriptionsHigh_example1,
@@ -1011,8 +966,8 @@ const timeline = [
     exp.intro_DescriptionsHigh_example3,
     exp.intro_HighDescriptionsAfterExamples,
     exp.preloadHighMI, 
-    exp.task_highMI,
-    dv, 
+   exp.task_highMI,
+    exp.flowMeasure1,
     exp.intro_toSecond,
     exp.intro_toSecondChk,
     exp.preloadLowMI_examples, 
@@ -1022,7 +977,7 @@ const timeline = [
    exp.intro_DescriptionsLow_example3, 
    exp.preloadLowMI, 
    exp.task_lowMI, 
-   dv, 
+   exp.flowMeasure2,
    exp.demographics]; 
 
 
