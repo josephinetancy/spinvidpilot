@@ -924,6 +924,15 @@ p.preloadLowMI_examples = {
             },
         }; 
 
+        const end = {
+            type: jsPsychHtmlButtonResponse,
+            stimulus: '<p>Thank you! Please press the button to submit your response.</p>',
+            choices: ['Submit!'],
+            on_finish: (data) => {
+                saveSurveyData(data); 
+            },
+        };
+
         const demos = {
             timeline: [taskComplete, gender, age, ethnicity, english, finalWord, pid]
         };
@@ -940,30 +949,21 @@ p.preloadLowMI_examples = {
     */
 
 
-/*/    p.save_data = {
+   p.save_data = {
         type: jsPsychPipe,
         action: "save",
-        experiment_id: "3ea7j3v4FYxI",
+        experiment_id: "m8l781TEih2C",
         filename: filename,
         data_string: ()=>jsPsych.data.get().csv()
-    }; */
+    }; 
 
     return p;
 
 }());
 
 
-const save_data = {
-    type: jsPsychPipe,
-    action: "save",
-    experiment_id: "m8l781TEih2C",
-    filename: filename,
-    data_string: ()=>jsPsych.data.get().csv()
-              };
-
-
 const timeline = [
-    exp.consent,
+   exp.consent,
    exp.intro_preChk,
     exp.intro, 
    exp.intro_DescriptionsHigh,
@@ -986,7 +986,8 @@ const timeline = [
    exp.preloadLowMI, 
    exp.task_lowMI, 
    exp.flowMeasure2,
-   exp.demographics]; 
+   exp.demographics,
+   exp.save_data]; 
 
 
 jsPsych.run(timeline);
