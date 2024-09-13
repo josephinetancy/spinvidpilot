@@ -61,36 +61,40 @@ const exp = (function() {
 
             {sectors: [ wedges.one, wedges.two, wedges.three, wedges.four ], arrangement: "O1, O2, Aff1, Aff2", wheel: "19", MI: "low", img: `<img src="./img/19.jpeg" style="width:50%; height:auto;">`},
 
-         //   {sectors: [ wedges.one, wedges.one, wedges.one, wedges.one ], arrangement: "O1, O2, Aff1, Aff2", wheel: "19", MI: "low"} testing
-
-        ];
-
- const fake = {
- fake1: `<img src="./img/weirdlilguys.jpeg" alt="@weirdlilguys" style="vertical-align:middle; width:40px; height:40px; border-radius: 50%;"> <strong>@weirdlilguys</strong>`,
- fake2: `<img src="./img/catswithjobs.jpeg" alt="@catswithjobs" style="vertical-align:middle; width:40px; height:40px; border-radius: 50%;"> <strong>@catswithjobs</strong>`
+];
+    
+    //fake accounts for attention check 
+    const fake = {
+        fake1: `<img src="./img/weirdlilguys.jpeg" alt="@weirdlilguys" style="vertical-align:middle; width:40px; height:40px; border-radius: 50%;"> <strong>@weirdlilguys</strong>`,\
+        fake2: `<img src="./img/catswithjobs.jpeg" alt="@catswithjobs" style="vertical-align:middle; width:40px; height:40px; border-radius: 50%;"> <strong>@catswithjobs</strong>`
 };
 
- descripExample: `<img src="./img/crazymemescrazyfights.jpeg" alt="@crazy memes crazy fights" style="vertical-align:middle; width:40px; height:40px; border-radius: 50%;"> <strong>@crazy memes crazy fights</strong>`
+    //allocate random wheel for each condition 
+    const highMIwheel = [wheels[Math.floor(Math.random() * 16)]];// random integer from 0 - 15, for high MI wheel
 
-    const highMIwheel = [wheels[Math.floor(Math.random() * 16)]];// random integer from 0 - 15
-    //const highMIwheel = [wheels[20]]; testing
-    const lowMIwheel = [wheels[Math.floor(Math. random() * 4) + 16]]; // random integer from 16 - 19
+    const lowMIwheel = [wheels[Math.floor(Math. random() * 4) + 16]]; // random integer from 16 - 19, for low MI wheel
 
-//wheel preloading
+    //wheel preloading
     function getVideoPaths(wheel) {
     const videos = [];
     wheel.sectors.forEach(sector => {
         for (let i = 0; i < 15; i++) {
             videos.push(`video/${sector.shortName}/${i}.mp4`);
         }
-    });
+});
     return videos;
 }
 
-//getting descriptions for each account/wheel 
+//getting descriptions with emotions for each account/wheel - Note: Not used in this experiment as this is pilot
 function getDescriptions(wheel) {
     const descriptions = wheel.sectors.map(sector => sector.description);
     return descriptions; // Combine descriptions into an unordered list
+}
+
+//getting emotion for attention check - Note: Not used in this experiment as this is pilot
+function getEmotion(wheel) {
+    const emotion = wheel.sectors.map(sector => sector.emotion);
+    return emotion; 
 }
 
 //getting preview wheel image
@@ -100,31 +104,22 @@ function getPreviewWheel(wheel) {
 }
 
 //getting example videos
-function getEmotion(wheel) {
-    const emotion = wheel.sectors.map(sector => sector.emotion);
-    return emotion; 
-}
-
-//getting example videos
 function getExamples(wheel) {
     const examples = wheel.sectors.map(sector => sector.example);
     return examples; 
 }
 
-//getting example descriptions
+//getting just account name and picture
 function getdescripExample(wheel) {
     const descripExamples = wheel.sectors.map(sector => sector.descripExample);
     return descripExamples; 
 }
 
-
-console.log(highMIwheel[0])
-
-//video paths
+//video paths for actual videos
     const highMIVideoPaths = getVideoPaths(highMIwheel[0]);
     const lowMIVideoPaths = getVideoPaths(lowMIwheel[0]);
 
-//examples 
+//account names and picture
     const highMIDescripExamples = getdescripExample(highMIwheel[0]);
     const lowMIDescripExamples = getdescripExample(lowMIwheel[0]);
 
@@ -133,18 +128,19 @@ console.log(highMIwheel[0])
     console.log(highpreviewWheel)
     const lowpreviewWheel = getPreviewWheel(lowMIwheel[0]);
 
-//descriptions + examples for high
+//descriptions + examples for high - Note: Not used in this experiment as this is pilot
     const highMIDescription = getDescriptions(highMIwheel[0]);
     const highMIexamples = getExamples(highMIwheel[0]);
 
-//descriptions + examples for low
+//descriptions + examples for low - Note: Not used in this experiment as this is pilot
     const lowMIDescription = getDescriptions(lowMIwheel[0]);
     const lowMIexamples = getExamples(lowMIwheel[0]);
 
-//emotion labels for attention checks for high + low
+//emotion labels for attention checks for high + low - Note: Not used in this experiment as this is pilot
     const highMIEmotion = getEmotion(highMIwheel[0]);
     const lowMIEmotion = getEmotion(lowMIwheel[0]);
 
+//making sure that descriptions with emotions for each account/wheel preloads first even before preloading screen - Note: Not used in this experiment as this is pilot
  //   document.body.innerHTML += `<ul>${highMIDescription.join('')}</ul>`;
  //   document.body.innerHTML += `<ul>${lowMIDescription.join('')}</ul>`;
 
@@ -321,21 +317,22 @@ MORE WHEEL SET UP
 
         intro_DescriptionsHigh: [
             `<div class='parent'>
-                <p>Next, we will familiarize you with the kind of videos posted by each account. </p> 
                 <p>${highpreviewWheel}</p>
-                <p>You'll watch a video posted by each account on the wheel.</p>
+                <p>Next, we will familiarize you with the kind of videos posted by each account. </p> 
+                <p>Specifically, you'll watch a video posted by each account on the wheel.</p>
                 <p>First, you'll watch an example video from ${highMIDescripExamples[0]}'s feed.</p>
                 <p>Then, you'll watch an example video from ${highMIDescripExamples[1]}'s feed.</p>
                 <p>Third, you'll watch an example video from ${highMIDescripExamples[2]}'s feed.</p>
                 <p>Lastly, you'll watch an example video from ${highMIDescripExamples[3]}'s feed.</p>
                 </div>
-                <p>On the next page, you'll preview examples of each of the accounts one-by-one. </p>
+                <p>Starting on the next page, you'll watch the example videos of each of the accounts one-by-one. </p>
             </div>`
         ], 
 
         intro_DescriptionsLow_example0: [
             `<div class='parent'>
-             <p>Watch the video below to see the type of videos on ${lowMIDescripExamples[0]}'s feed. </p>
+             <p>Below is a video from ${lowMIDescripExamples[0]}'s feed. </p>
+             <p> Watch the video to get a sense of the type of content that ${lowMIDescripExamples[0]} posts. </p>
             <p>Please make sure your volume is turned on. </p>
             <video src= "${lowMIexamples[0]}" style="width:60%; height:60%;" controls>
                 Your browser does not support the video tag.
@@ -346,7 +343,8 @@ MORE WHEEL SET UP
 
         intro_DescriptionsLow_example1: [
             `<div class='parent'>
-           <p>Watch the video below to see the type of videos on ${lowMIDescripExamples[1]}'s feed. </p>
+            <p>Below is a video from ${lowMIDescripExamples[1]}'s feed. </p>
+             <p> Watch the video to get a sense of the type of content that ${lowMIDescripExamples[1]} posts. </p>
             <p>Please make sure your volume is turned on. </p>
             <video src= "${lowMIexamples[1]}" style="width:60%; height:60%;" controls>
                 Your browser does not support the video tag.
@@ -357,7 +355,8 @@ MORE WHEEL SET UP
 
         intro_DescriptionsLow_example2: [
             `<div class='parent'>
-            <p>Watch the video below to see the type of videos on ${lowMIDescripExamples[2]}'s feed. </p>
+            <p>Below is a video from ${lowMIDescripExamples[2]}'s feed. </p>
+             <p> Watch the video to get a sense of the type of content that ${lowMIDescripExamples[2]} posts. </p>
             <p>Please make sure your volume is turned on. </p>
             <video src= "${lowMIexamples[2]}" style="width:60%; height:60%;" controls>
                 Your browser does not support the video tag.
@@ -368,8 +367,9 @@ MORE WHEEL SET UP
 
         intro_DescriptionsLow_example3: [
             `<div class='parent'>
-            <p>Watch the video below to see the type of videos on ${lowMIDescripExamples[3]}'s feed. </p>
-            <p>Please make sure your volume is turned on. </p>
+            <p>Below is a video from ${lowMIDescripExamples[3]}'s feed. </p>
+             <p> Watch the video to get a sense of the type of content that ${lowMIDescripExamples[3]} posts. </p>            
+             <p>Please make sure your volume is turned on. </p>
             <video src= "${lowMIexamples[3]}" style="width:60%; height:60%;" controls>
                 Your browser does not support the video tag.
             </video>
@@ -388,7 +388,8 @@ MORE WHEEL SET UP
 
                 intro_DescriptionsHigh_example0: [
             `<div class='parent'>
-            <p>Watch the video below to see the type of videos on ${highMIDescripExamples[0]}'s feed. </p>
+            <p>Below is a video from ${highMIDescripExamples[0]}'s feed. </p>
+             <p> Watch the video to get a sense of the type of content that ${highMIDescripExamples[0]} posts. </p>
             <p>Please make sure your volume is turned on. </p>
             <video src= "${highMIexamples[0]}" style="width:60%; height:60%;" controls>
                 Your browser does not support the video tag.
@@ -399,7 +400,8 @@ MORE WHEEL SET UP
 
         intro_DescriptionsHigh_example1: [
             `<div class='parent'>
-           <p>Watch the video below to see the type of videos on ${highMIDescripExamples[1]}'s feed. </p>
+           <p>Below is a video from ${highMIDescripExamples[1]}'s feed. </p>
+             <p> Watch the video to get a sense of the type of content that ${highMIDescripExamples[1]} posts. </p>
             <p>Please make sure your volume is turned on. </p>
             <video src= "${highMIexamples[1]}" style="width:60%; height:60%;" controls>
                 Your browser does not support the video tag.
@@ -410,7 +412,8 @@ MORE WHEEL SET UP
 
         intro_DescriptionsHigh_example2: [
             `<div class='parent'>
-            <p>Watch the video below to see the type of videos on ${highMIDescripExamples[2]}'s feed. </p>
+            <<p>Below is a video from ${highMIDescripExamples[2]}'s feed. </p>
+             <p> Watch the video to get a sense of the type of content that ${highMIDescripExamples[2]} posts. </p>
             <p>Please make sure your volume is turned on. </p>
             <video src= "${highMIexamples[2]}" style="width:60%; height:60%;" controls>
                 Your browser does not support the video tag.
@@ -421,7 +424,8 @@ MORE WHEEL SET UP
 
         intro_DescriptionsHigh_example3: [
             `<div class='parent'>
-            <p>Watch the video below to see the type of videos on ${highMIDescripExamples[3]}'s feed. </p>
+            <p>Below is a video from ${highMIDescripExamples[3]}'s feed. </p>
+             <p> Watch the video to get a sense of the type of content that ${highMIDescripExamples[3]} posts. </p>
             <p>Please make sure your volume is turned on. </p>
             <video src= "${highMIexamples[3]}" style="width:60%; height:60%;" controls>
                 Your browser does not support the video tag.
@@ -464,6 +468,7 @@ MORE WHEEL SET UP
                <p> For Round 1, you'll be spinning this wheel:</p> 
                 <p>${highpreviewWheel}</p>
                 <br>
+                <p> Before you continue, please answer the following questions: </p>
                 </div>`,
             questions: [
                 {
