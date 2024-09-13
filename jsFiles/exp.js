@@ -65,7 +65,7 @@ const exp = (function() {
     
     //fake accounts for attention check 
     const fake = {
-        fake1: `<img src="./img/weirdlilguys.jpeg" alt="@weirdlilguys" style="vertical-align:middle; width:40px; height:40px; border-radius: 50%;"> <strong>@weirdlilguys</strong>`,\
+        fake1: `<img src="./img/weirdlilguys.jpeg" alt="@weirdlilguys" style="vertical-align:middle; width:40px; height:40px; border-radius: 50%;"> <strong>@weirdlilguys</strong>`,
         fake2: `<img src="./img/catswithjobs.jpeg" alt="@catswithjobs" style="vertical-align:middle; width:40px; height:40px; border-radius: 50%;"> <strong>@catswithjobs</strong>`
 };
 
@@ -100,7 +100,6 @@ function getEmotion(wheel) {
 //getting preview wheel image
 function getPreviewWheel(wheel) {
     return wheel.img;
-    console.log(wheel.img);
 }
 
 //getting example videos
@@ -125,7 +124,6 @@ function getdescripExample(wheel) {
 
 //preview wheels
     const highpreviewWheel = getPreviewWheel(highMIwheel[0]);
-    console.log(highpreviewWheel)
     const lowpreviewWheel = getPreviewWheel(lowMIwheel[0]);
 
 //descriptions + examples for high - Note: Not used in this experiment as this is pilot
