@@ -987,7 +987,7 @@ const timeline = [
    exp.task_lowMI, 
    exp.flowMeasure2,
    exp.demographics,
-   exp.save_data
+   exp.save_data,
    exp.end]; 
 
 
