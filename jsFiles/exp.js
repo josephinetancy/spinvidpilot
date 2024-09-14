@@ -939,7 +939,7 @@ p.preloadLowMI_examples = {
     *
     */
 
-    exp.end = {
+p.end = {
         type: jsPsychHtmlButtonResponse,
         stimulus: '<p>Thank you! Please press the button to submit your response.</p>',
         choices: ['Submit!'],
