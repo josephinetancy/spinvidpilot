@@ -960,8 +960,8 @@ p.end = {
 
 
 const timeline = [
-   //exp.consent,
-/*   exp.intro_preChk,
+    exp.consent,
+   exp.intro_preChk,
     exp.intro, 
    exp.intro_DescriptionsHigh,
     exp.preloadHighMI_examples, 
@@ -970,7 +970,7 @@ const timeline = [
     exp.intro_DescriptionsHigh_example2,
     exp.intro_DescriptionsHigh_example3,
     exp.intro_HighDescriptionsAfterExamples,
-    exp.preloadHighMI, */
+    exp.preloadHighMI, 
    exp.task_highMI,
     exp.flowMeasure1,
     exp.intro_toSecond,
