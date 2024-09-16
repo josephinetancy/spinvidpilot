@@ -767,7 +767,6 @@ function getdescripExample(wheel) {
         randomize_question_order: false,
         scale_width: 600,
         on_finish: function(data) {
-            data.round = round;
             spin_num = remainingSpinsReset;
             saveSurveyData(data);
         }
