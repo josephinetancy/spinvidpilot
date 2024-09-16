@@ -726,7 +726,6 @@ function getdescripExample(wheel) {
         randomize_question_order: false,
         scale_width: 600,
         on_finish: function(data) {
-            data.round = round;
             spin_num = remainingSpinsReset;
             saveSurveyData(data);
         }
@@ -787,7 +786,7 @@ function getdescripExample(wheel) {
         randomize_question_order: false,
         scale_width: 600,
         on_finish: function(data) {
-            data.round = round;
+            data.spinsSpun = spinsSpun;
             saveSurveyData(data);
         }
     };
@@ -844,14 +843,14 @@ p.preloadLowMI_examples = {
 
     p.task_highMI = {
         timeline: [spin, video_load, emotionMeasure],
-        repetitions: `spin_num`, //this should be the number of repetitions for each spin + video combo..
+        repetitions: spin_num, //this should be the number of repetitions for each spin + video combo..
         timeline_variables: highMIwheel
     }; 
 
 
     p.task_lowMI = {
         timeline: [spin, video_load, emotionMeasure],
-        repetitions: `spin_num`, //this should be the number of repetitions for each spin + video combo..
+        repetitions: spin_num, //this should be the number of repetitions for each spin + video combo..
         timeline_variables: lowMIwheel
     }; 
 
@@ -962,7 +961,7 @@ p.end = {
 
 const timeline = [
    //exp.consent,
-   exp.intro_preChk,
+/*   exp.intro_preChk,
     exp.intro, 
    exp.intro_DescriptionsHigh,
     exp.preloadHighMI_examples, 
@@ -971,7 +970,7 @@ const timeline = [
     exp.intro_DescriptionsHigh_example2,
     exp.intro_DescriptionsHigh_example3,
     exp.intro_HighDescriptionsAfterExamples,
-    exp.preloadHighMI, 
+    exp.preloadHighMI, */
    exp.task_highMI,
     exp.flowMeasure1,
     exp.intro_toSecond,
