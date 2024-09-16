@@ -12,6 +12,18 @@ const exp = (function() {
     *
     */
 
+    let scoreTracker = 0; // track current score
+
+    let spinsSpun = 1;  // track current number of spins (including spins for both wheels)
+
+    let account = 'default'; //this is the account
+
+    let usedVideos = new Set();
+
+    let vidNumber = Math.floor(Math.random()*15);
+
+    let spin_num = 20; //change this to the number of spins. This will change the number of spins AFTER the wheel decelerates. 
+
 
     // define each wedge
     const wedges = {
@@ -142,18 +154,6 @@ function getdescripExample(wheel) {
  //   document.body.innerHTML += `<ul>${highMIDescription.join('')}</ul>`;
  //   document.body.innerHTML += `<ul>${lowMIDescription.join('')}</ul>`;
 
-    let scoreTracker = 0; // track current score
-
-    let round = 1;  // track current round
-
-    let account = 'default'; //this is the account
-
-    let usedVideos = new Set();
-
-    let vidNumber = Math.floor(Math.random()*15);
-
-    let spin_num = 4; //change this to the number of spins. This will change the number of spins AFTER the wheel decelerates. 
-
 
     function generateUniqueVidNumber(max) {
         let newVidNumber;
@@ -197,7 +197,7 @@ function getdescripExample(wheel) {
             MI: jsPsych.timelineVariable('MI')
         },
         on_finish: function(data) {
-            data.round = round;
+            data.spinsSpun = spinsSpun;
             longName = (data.outcomes[0] || '').trim(); 
             shortName = getShortName(longName);
             vidNumber = generateUniqueVidNumber(15);
@@ -219,7 +219,7 @@ function getdescripExample(wheel) {
             height: 480,
             trial_ends_after_video: true,
             on_finish: function(data) {
-            round++;
+            spinsSpun++;
         }
     };
 
@@ -786,11 +786,9 @@ function getdescripExample(wheel) {
         ],
         randomize_question_order: false,
         scale_width: 600,
-        data: {arrangement: jsPsych.timelineVariable('arrangement')},
         on_finish: function(data) {
             data.round = round;
             saveSurveyData(data);
-            round++;
         }
     };
 
@@ -846,14 +844,14 @@ p.preloadLowMI_examples = {
 
     p.task_highMI = {
         timeline: [spin, video_load, emotionMeasure],
-        repetitions: 4, //this should be the number of repetitions for each spin + video combo..
+        repetitions: `spin_num`, //this should be the number of repetitions for each spin + video combo..
         timeline_variables: highMIwheel
     }; 
 
 
     p.task_lowMI = {
         timeline: [spin, video_load, emotionMeasure],
-        repetitions: 4, //this should be the number of repetitions for each spin + video combo..
+        repetitions: `spin_num`, //this should be the number of repetitions for each spin + video combo..
         timeline_variables: lowMIwheel
     }; 
 
@@ -941,7 +939,7 @@ p.preloadLowMI_examples = {
 
 p.end = {
         type: jsPsychHtmlButtonResponse,
-        stimulus: '<p>Thank you! Please press the button to submit your response.</p>',
+        stimulus: '<p>Thank you! Please press the button to submit your response and exit the page. </p>',
         choices: ['Submit!'],
         on_finish: (data) => {
             saveSurveyData(data); 
@@ -963,7 +961,7 @@ p.end = {
 
 
 const timeline = [
-   exp.consent,
+   //exp.consent,
    exp.intro_preChk,
     exp.intro, 
    exp.intro_DescriptionsHigh,
