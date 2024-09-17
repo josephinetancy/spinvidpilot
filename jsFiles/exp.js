@@ -155,19 +155,36 @@ function getdescripExample(wheel) {
  //   document.body.innerHTML += `<ul>${lowMIDescription.join('')}</ul>`;
 
 
-    function generateUniqueVidNumber(max) {
-        let newVidNumber;
-        if (usedVideos.size === max) {
-        usedVideos.clear();  // Reset if all videos have been used
-        }
-        do {
+let usedVideoPaths = new Set();  // Track full video paths
+const uniqueShortNames = {};
+
+function generateUniqueVideoPath(shortName, max) {
+    let newVidNumber;
+    let videoPath;
+
+    // Initialize a set for the current shortName if not present
+    if (!uniqueShortNames[shortName]) {
+        uniqueShortNames[shortName] = new Set();
+    }
+
+    // Check if all video paths for this shortName have been used
+    if (uniqueShortNames[shortName].size === max) {
+        uniqueShortNames[shortName].clear();  // Reset only for this shortName
+    }
+
+    do {
+        // Generate a random video number between 0 and max-1
         newVidNumber = Math.floor(Math.random() * max);
-        } while (usedVideos.has(newVidNumber));
-        usedVideos.add(newVidNumber);
-        return newVidNumber;
+        videoPath = `video/${shortName}/${newVidNumber}.mp4`;
+    } while (uniqueShortNames[shortName].has(videoPath));  // Keep generating if path is used
+
+    // Add the newly generated path to the set for this shortName
+    uniqueShortNames[shortName].add(videoPath);
+    
+    return videoPath;
 }
 
-    function getShortName(longName) {
+function getShortName(longName) {
     // Iterate over each key in the wedges object
         for (let key in wedges) {
         // Check if the label matches the longName
@@ -179,7 +196,6 @@ function getdescripExample(wheel) {
     // Return null or an appropriate value if no match is found
     return null;
 }
-
     // trial: spinner
     const spin = {
         type: jsPsychCanvasButtonResponse,
@@ -200,9 +216,8 @@ function getdescripExample(wheel) {
             data.spinsSpun = spinsSpun;
             longName = (data.outcomes[0] || '').trim(); 
             shortName = getShortName(longName);
-            vidNumber = generateUniqueVidNumber(15);
-            data.vidNumber = vidNumber;
-            data.shortName = shortName;
+            videoPath = generateUniqueVideoPath(shortName, 15);  // Call the revised function
+            data.videoPath = videoPath;
             console.log(data);
             spin_num--;
         }
@@ -211,7 +226,6 @@ function getdescripExample(wheel) {
     const video_load = {
         type: jsPsychVideoKeyboardResponse,
         stimulus: function() {
-            const videoPath = `video/${shortName}/${vidNumber}.mp4`;
             console.log(videoPath);
             return [videoPath]; 
         },
@@ -959,7 +973,7 @@ p.end = {
 
 
 const timeline = [
-    exp.consent,
+ //   exp.consent,
    exp.intro_preChk,
     exp.intro, 
    exp.intro_DescriptionsHigh,
