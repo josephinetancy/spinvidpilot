@@ -358,36 +358,27 @@ function getShortName(longName) {
 
         intro_DescriptionsHigh_example1: [
             `<div class='parent'>
-           <p>Below is a video from ${highMIDescripExamples[1]}'s feed. </p>
+            <p>Next is a video from ${highMIDescripExamples[1]}'s feed. </p>
              <p> Watch the video to get a sense of the type of content that ${highMIDescripExamples[1]} posts. </p>
             <p>Please make sure your volume is turned on. </p>
-            <video src= "${highMIexamples[1]}" style="width:60%; height:60%;" controls>
-                Your browser does not support the video tag.
-            </video>
             </p>
         </div>`
         ],
 
         intro_DescriptionsHigh_example2: [
             `<div class='parent'>
-            <p>Below is a video from ${highMIDescripExamples[2]}'s feed. </p>
+            <p>Third is a video from ${highMIDescripExamples[2]}'s feed. </p>
              <p> Watch the video to get a sense of the type of content that ${highMIDescripExamples[2]} posts. </p>
             <p>Please make sure your volume is turned on. </p>
-            <video src= "${highMIexamples[2]}" style="width:60%; height:60%;" controls>
-                Your browser does not support the video tag.
-            </video>
             </p>
         </div>`
         ],
 
         intro_DescriptionsHigh_example3: [
             `<div class='parent'>
-            <p>Below is a video from ${highMIDescripExamples[3]}'s feed. </p>
+            <p>Last is a video from ${highMIDescripExamples[3]}'s feed. </p>
              <p> Watch the video to get a sense of the type of content that ${highMIDescripExamples[3]} posts. </p>
             <p>Please make sure your volume is turned on. </p>
-            <video src= "${highMIexamples[3]}" style="width:60%; height:60%;" controls>
-                Your browser does not support the video tag.
-            </video>
             </p>
         </div>`
         ],
@@ -853,8 +844,58 @@ p.preloadLowMI_examples = {
 
 p.intro_DescriptionsHigh_example0vid = {
             type: jsPsychVideoKeyboardResponse,
+            prompt: `${highMIDescripExamples[0]}`,
             stimulus: function() {
-            return [`${lowMIexamples[0]}`]; 
+            return [`${highMIexamples[0]}`]; 
+        },
+            width: 640,
+            height: 480,
+            trial_ends_after_video: true,
+            autoplay: true,
+            response_ends_trial: false,
+            on_finish: function(data) {
+        }
+
+        };   
+
+
+p.intro_DescriptionsHigh_example1vid = {
+            type: jsPsychVideoKeyboardResponse,
+            prompt: `${highMIDescripExamples[1]}`,
+            stimulus: function() {
+            return [`${highMIexamples[1]}`]; 
+        },
+            width: 640,
+            height: 480,
+            trial_ends_after_video: true,
+            autoplay: true,
+            response_ends_trial: false,
+            on_finish: function(data) {
+        }
+
+        };   
+
+p.intro_DescriptionsHigh_example2vid = {
+            type: jsPsychVideoKeyboardResponse,
+            prompt: `${highMIDescripExamples[2]}`,
+            stimulus: function() {
+            return [`${highMIexamples[2]}`]; 
+        },
+            width: 640,
+            height: 480,
+            trial_ends_after_video: true,
+            autoplay: true,
+            response_ends_trial: false,
+            on_finish: function(data) {
+        }
+
+        };   
+
+p.intro_DescriptionsHigh_example3vid = {
+            type: jsPsychVideoKeyboardResponse,
+            prompt: `${highMIDescripExamples[3]}`,
+            stimulus: function() {
+            return [`${highMIexamples[3]}`]; 
         },
             width: 640,
             height: 480,
@@ -993,8 +1034,11 @@ const timeline = [
     exp.intro_DescriptionsHigh_example0,
     exp.intro_DescriptionsHigh_example0vid,
     exp.intro_DescriptionsHigh_example1,
+    exp.intro_DescriptionsHigh_example1vid,
     exp.intro_DescriptionsHigh_example2,
+    exp.intro_DescriptionsHigh_example2vid,
     exp.intro_DescriptionsHigh_example3,
+    exp.intro_DescriptionsHigh_example3vid,
     exp.intro_HighDescriptionsAfterExamples,
     exp.preloadHighMI, 
    exp.task_highMI,
