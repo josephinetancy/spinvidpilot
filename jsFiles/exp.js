@@ -162,7 +162,7 @@ function generateUniqueVideoPath(shortName, max) {
     let newVidNumber;
     let videoPath;
 
-    // Initialize a set for the current shortName if not present
+    // Get a set for the current shortName if not present
     if (!uniqueShortNames[shortName]) {
         uniqueShortNames[shortName] = new Set();
     }
@@ -232,6 +232,7 @@ function getShortName(longName) {
             width: 640,
             height: 480,
             trial_ends_after_video: true,
+            response_ends_trial: false,
             on_finish: function(data) {
             spinsSpun++;
         }
@@ -346,14 +347,11 @@ function getShortName(longName) {
         </div>`
         ],
 
-                intro_DescriptionsHigh_example0: [
+        intro_DescriptionsHigh_example0: [
             `<div class='parent'>
-            <p>Below is a video from ${highMIDescripExamples[0]}'s feed. </p>
+            <p>First is a video from ${highMIDescripExamples[0]}'s feed. </p>
              <p> Watch the video to get a sense of the type of content that ${highMIDescripExamples[0]} posts. </p>
             <p>Please make sure your volume is turned on. </p>
-            <video src= "${highMIexamples[0]}" style="width:60%; height:60%;" controls>
-                Your browser does not support the video tag.
-            </video>
             </p>
         </div>`
         ],
@@ -632,8 +630,7 @@ function getShortName(longName) {
             pages: html.intro_DescriptionsHigh_example0,
             show_clickable_nav: true,
             post_trial_gap: 500,
-        };    
-
+        }; 
 
     p.intro_DescriptionsHigh_example1 = {
             type: jsPsychInstructions,
@@ -802,7 +799,7 @@ function getShortName(longName) {
             data.spinsSpun = spinsSpun;
             saveSurveyData(data);
         }
-    };
+    }; 
 
 
     // timeline: main task
@@ -853,6 +850,21 @@ p.preloadLowMI_examples = {
     }
 };
 
+
+p.intro_DescriptionsHigh_example0vid = {
+            type: jsPsychVideoKeyboardResponse,
+            stimulus: function() {
+            return [`${lowMIexamples[0]}`]; 
+        },
+            width: 640,
+            height: 480,
+            trial_ends_after_video: true,
+            autoplay: true,
+            response_ends_trial: false,
+            on_finish: function(data) {
+        }
+
+        };   
 
     p.task_highMI = {
         timeline: [spin, video_load, emotionMeasure],
@@ -945,7 +957,7 @@ p.preloadLowMI_examples = {
 
    /*
     *
-    *   SAVE DATA
+    *   SAVE DATA & END
     *
     */
 
@@ -973,12 +985,13 @@ p.end = {
 
 
 const timeline = [
-    exp.consent,
+ //   exp.consent,
    exp.intro_preChk,
     exp.intro, 
    exp.intro_DescriptionsHigh,
     exp.preloadHighMI_examples, 
     exp.intro_DescriptionsHigh_example0,
+    exp.intro_DescriptionsHigh_example0vid,
     exp.intro_DescriptionsHigh_example1,
     exp.intro_DescriptionsHigh_example2,
     exp.intro_DescriptionsHigh_example3,
