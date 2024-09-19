@@ -24,6 +24,20 @@ const exp = (function() {
 
     let spin_num = 20; //change this to the number of spins. This will change the number of spins AFTER the wheel decelerates. 
 
+    //randomly assigning which wheel comes first. 
+    //1 = high comes first, 2 = low comes first
+    const randomAssignment = Math.floor(Math.random() * 2) + 1;
+
+    if (randomAssignment == '1') {
+    roundTextHigh = '1';
+    roundTextLow = '2';
+
+    } else {
+
+    roundTextHigh = '2';
+    roundTextLow = '1';
+}
+
 
     // define each wedge
     const wedges = {
@@ -434,7 +448,7 @@ function getShortName(longName) {
         const attnChk = {
             type: jsPsychSurveyMultiChoice,
             preamble: `<div class='parent'>
-               <p> For Round 1, you'll be spinning this wheel:</p> 
+               <p> For Round ${roundTextHigh}., you'll be spinning this wheel:</p> 
                 <p>${highpreviewWheel}</p>
                 <p> Before you continue, please answer the following questions: </p>
                 </div>`,
@@ -534,7 +548,7 @@ function getShortName(longName) {
  const attnChk_low = {
             type: jsPsychSurveyMultiChoice,
              preamble: `<div class='parent'>
-               <p> For Round 2, you'll be spinning this wheel:</p> 
+               <p> For Round ${roundTextLow}, you'll be spinning this wheel:</p> 
                 <p>${lowpreviewWheel}</p>
                 <br>
                 </div>`,
@@ -1151,18 +1165,12 @@ const lowtask = {
     [exp.preloadLowMI, exp.task_lowMI
 ]};
 
-
-//randomly assigning which wheel comes first. 
-    //1 = high comes first, 2 = low comes first
-const randomAssignment = Math.floor(Math.random() * 2) + 1;
-
 // Create the timeline based on the random choice
-let timeline = [];
+    let timeline = [];
 
 if (randomAssignment === 1) {
    // Show high examples and high task first
    timeline = [
- 
       exp.intro_preChk,
       highexamples,
       exp.intro_toFirst,
