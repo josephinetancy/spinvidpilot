@@ -76,18 +76,50 @@ const exp = (function() {
 ];
     
     //fake accounts for attention check 
-    const fake = {
+const fake = {
         fake1: `<img src="./img/weirdlilguys.jpeg" alt="@weirdlilguys" style="vertical-align:middle; width:40px; height:40px; border-radius: 50%;"> <strong>@weirdlilguys</strong>`,
         fake2: `<img src="./img/catswithjobs.jpeg" alt="@catswithjobs" style="vertical-align:middle; width:40px; height:40px; border-radius: 50%;"> <strong>@catswithjobs</strong>`
 };
 
     //allocate random wheel for each condition 
-    const highMIwheel = [wheels[Math.floor(Math.random() * 16)]];// random integer from 0 - 15, for high MI wheel
+const highMIwheel = [wheels[Math.floor(Math.random() * 16)]];// random integer from 0 - 15, for high MI wheel
 
-    const lowMIwheel = [wheels[Math.floor(Math. random() * 4) + 16]]; // random integer from 16 - 19, for low MI wheel
+const lowMIwheel = [wheels[Math.floor(Math.random() * 4) + 16]]; // random integer from 16 - 19, for low MI wheel
+
+//randomize wheel sectors 
+function shuffleArray(array) {
+  for (let i = array.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [array[i], array[j]] = [array[j], array[i]];
+  }
+  return array;
+}
+
+if (!lowMIwheel[0] || !Array.isArray(lowMIwheel[0].sectors)) {
+  console.error("lowMIwheel[0].sectors is not an array or is undefined.");
+} else {
+  // Log the original sectors for debugging
+  console.log("Original lowMIwheel sectors:", lowMIwheel[0].sectors);
+
+  // Shuffle the sectors if it is an array
+  lowMIwheel[0].sectors = shuffleArray([...lowMIwheel[0].sectors]);
+  console.log("Shuffled lowMIwheel sectors:", lowMIwheel[0].sectors);
+}
+
+// Do the same for highMIwheel
+if (!highMIwheel[0] || !Array.isArray(highMIwheel[0].sectors)) {
+  console.error("highMIwheel[0].sectors is not an array or is undefined.");
+} else {
+  // Log the original sectors for debugging
+  console.log("Original highMIwheel sectors:", highMIwheel[0].sectors);
+
+  // Randomize order of sectors 
+  highMIwheel[0].sectors = shuffleArray([...highMIwheel[0].sectors]);
+  console.log("Shuffled highMIwheel sectors:", highMIwheel[0].sectors);
+}
 
     //wheel preloading
-    function getVideoPaths(wheel) {
+function getVideoPaths(wheel) {
     const videos = [];
     wheel.sectors.forEach(sector => {
         for (let i = 0; i < 15; i++) {
@@ -210,10 +242,11 @@ function getShortName(longName) {
         data: {
             arrangement: jsPsych.timelineVariable('arrangement'), 
             wheel: jsPsych.timelineVariable('wheel'), 
-            MI: jsPsych.timelineVariable('MI')
+            MI: jsPsych.timelineVariable('MI'),
         },
         on_finish: function(data) {
             data.spinsSpun = spinsSpun;
+            data.randomAssignment = randomAssignment;
             longName = (data.outcomes[0] || '').trim(); 
             shortName = getShortName(longName);
             videoPath = generateUniqueVideoPath(shortName, 15);  // Call the revised function
@@ -292,53 +325,40 @@ function getShortName(longName) {
 
         intro_DescriptionsLow_example0: [
             `<div class='parent'>
-             <p>Below is a video from ${lowMIDescripExamples[0]}'s feed. </p>
+            <p>First is a video from ${lowMIDescripExamples[0]}'s feed. </p>
              <p> Watch the video to get a sense of the type of content that ${lowMIDescripExamples[0]} posts. </p>
             <p>Please make sure your volume is turned on. </p>
-            <video src= "${lowMIexamples[0]}" style="width:60%; height:60%;" controls>
-                Your browser does not support the video tag.
-            </video>
             </p>
-        </div>`
-        ],
+        </div>`        ],
 
         intro_DescriptionsLow_example1: [
-            `<div class='parent'>
-            <p>Below is a video from ${lowMIDescripExamples[1]}'s feed. </p>
+             `<div class='parent'>
+            <p>Next is a video from ${lowMIDescripExamples[1]}'s feed. </p>
              <p> Watch the video to get a sense of the type of content that ${lowMIDescripExamples[1]} posts. </p>
             <p>Please make sure your volume is turned on. </p>
-            <video src= "${lowMIexamples[1]}" style="width:60%; height:60%;" controls>
-                Your browser does not support the video tag.
-            </video>
             </p>
         </div>`
         ],
 
         intro_DescriptionsLow_example2: [
-            `<div class='parent'>
-            <p>Below is a video from ${lowMIDescripExamples[2]}'s feed. </p>
+             `<div class='parent'>
+            <p>Third is a video from ${lowMIDescripExamples[2]}'s feed. </p>
              <p> Watch the video to get a sense of the type of content that ${lowMIDescripExamples[2]} posts. </p>
             <p>Please make sure your volume is turned on. </p>
-            <video src= "${lowMIexamples[2]}" style="width:60%; height:60%;" controls>
-                Your browser does not support the video tag.
-            </video>
             </p>
         </div>`
         ],
 
         intro_DescriptionsLow_example3: [
-            `<div class='parent'>
-            <p>Below is a video from ${lowMIDescripExamples[3]}'s feed. </p>
-             <p> Watch the video to get a sense of the type of content that ${lowMIDescripExamples[3]} posts. </p>            
-             <p>Please make sure your volume is turned on. </p>
-            <video src= "${lowMIexamples[3]}" style="width:60%; height:60%;" controls>
-                Your browser does not support the video tag.
-            </video>
+             `<div class='parent'>
+            <p>Last is a video from ${lowMIDescripExamples[3]}'s feed. </p>
+             <p> Watch the video to get a sense of the type of content that ${lowMIDescripExamples[3]} posts. </p>
+            <p>Please make sure your volume is turned on. </p>
             </p>
         </div>`
         ],
 
-        intro_HighDescriptionsAfterExamples: [
+        intro_toFirst: [
             `<div class='parent'>
              <p>You're now ready to play Round 1!</p> 
              <p>Please make sure you're volume is on. </p> 
@@ -392,7 +412,7 @@ function getShortName(longName) {
     };
 
 
-    function MakeIntro() {
+    function MakeIntroHigh() {
 
         const correctAnswers = {
             attnChk0 : `True`, 
@@ -597,9 +617,9 @@ function getShortName(longName) {
         cont_btn: "advance",
     };
 
-    p.intro = new MakeIntro();
+    p.introHigh = new MakeIntroHigh();
 
-    p.intro_toSecondChk = new MakeIntroLow();
+    p.introLow = new MakeIntroLow();
 
     p.intro_preChk = {
             type: jsPsychInstructions,
@@ -644,9 +664,9 @@ function getShortName(longName) {
             post_trial_gap: 500,
         };     
 
-    p.intro_HighDescriptionsAfterExamples = {
+    p.intro_toFirst = {
             type: jsPsychInstructions,
-            pages: html.intro_HighDescriptionsAfterExamples,
+            pages: html.intro_toFirst,
             show_clickable_nav: true,
             post_trial_gap: 500,
         };   
@@ -795,7 +815,7 @@ function getShortName(longName) {
 
     // timeline: main task
 
-    p.preloadHighMI = {
+p.preloadHighMI = {
     type: jsPsychPreload,
     video: highMIVideoPaths,
     message: `<p>Now loading the first wheel... </p> <p> As a reminder, you'll be spinning this wheel: </p><p>${highpreviewWheel}</p></ul><br>`,
@@ -907,6 +927,73 @@ p.intro_DescriptionsHigh_example3vid = {
 
         };   
 
+p.intro_DescriptionsLow_example0vid = {
+            type: jsPsychVideoKeyboardResponse,
+            prompt: `${lowMIDescripExamples[0]}`,
+            stimulus: function() {
+            return [`${lowMIexamples[0]}`]; 
+        },
+            width: 640,
+            height: 480,
+            trial_ends_after_video: true,
+            autoplay: true,
+            response_ends_trial: false,
+            on_finish: function(data) {
+        }
+
+        };   
+
+
+p.intro_DescriptionsLow_example1vid = {
+            type: jsPsychVideoKeyboardResponse,
+            prompt: `${lowMIDescripExamples[1]}`,
+            stimulus: function() {
+            return [`${lowMIexamples[1]}`]; 
+        },
+            width: 640,
+            height: 480,
+            trial_ends_after_video: true,
+            autoplay: true,
+            response_ends_trial: false,
+            on_finish: function(data) {
+        }
+
+        };   
+
+
+p.intro_DescriptionsLow_example2vid = {
+            type: jsPsychVideoKeyboardResponse,
+            prompt: `${lowMIDescripExamples[2]}`,
+            stimulus: function() {
+            return [`${lowMIexamples[2]}`]; 
+        },
+            width: 640,
+            height: 480,
+            trial_ends_after_video: true,
+            autoplay: true,
+            response_ends_trial: false,
+            on_finish: function(data) {
+        }
+
+        };   
+
+
+p.intro_DescriptionsLow_example3vid = {
+            type: jsPsychVideoKeyboardResponse,
+            prompt: `${lowMIDescripExamples[3]}`,
+            stimulus: function() {
+            return [`${lowMIexamples[3]}`]; 
+        },
+            width: 640,
+            height: 480,
+            trial_ends_after_video: true,
+            autoplay: true,
+            response_ends_trial: false,
+            on_finish: function(data) {
+        }
+
+        };   
+
     p.task_highMI = {
         timeline: [spin, video_load, emotionMeasure],
         repetitions: spin_num, //this should be the number of repetitions for each spin + video combo..
@@ -1002,7 +1089,7 @@ p.intro_DescriptionsHigh_example3vid = {
     *
     */
 
-p.end = {
+    p.end = {
         type: jsPsychHtmlButtonResponse,
         stimulus: '<p>Thank you! Please press the button to submit your response and exit the page. </p>',
         choices: ['Submit!'],
@@ -1012,7 +1099,7 @@ p.end = {
         };
 
 
-   p.save_data = {
+    p.save_data = {
         type: jsPsychPipe,
         action: "save",
         experiment_id: "m8l781TEih2C",
@@ -1024,12 +1111,10 @@ p.end = {
 
 }());
 
-
-const timeline = [
-   exp.consent,
-   exp.intro_preChk,
-    exp.intro, 
-   exp.intro_DescriptionsHigh,
+const highexamples = {
+    timeline: 
+    [exp.introHigh,
+    exp.intro_DescriptionsHigh,
     exp.preloadHighMI_examples, 
     exp.intro_DescriptionsHigh_example0,
     exp.intro_DescriptionsHigh_example0vid,
@@ -1038,24 +1123,76 @@ const timeline = [
     exp.intro_DescriptionsHigh_example2,
     exp.intro_DescriptionsHigh_example2vid,
     exp.intro_DescriptionsHigh_example3,
-    exp.intro_DescriptionsHigh_example3vid,
-    exp.intro_HighDescriptionsAfterExamples,
-    exp.preloadHighMI, 
-   exp.task_highMI,
-    exp.flowMeasure1,
-    exp.intro_toSecond,
-    exp.intro_toSecondChk,
+    exp.intro_DescriptionsHigh_example3vid
+]};
+
+
+const hightask = {
+    timeline: 
+    [exp.preloadHighMI,exp.task_highMI,
+]};
+
+const lowexamples = {
+    timeline: 
+    [exp.introLow,
     exp.preloadLowMI_examples, 
    exp.intro_DescriptionsLow_example0,
+   exp.intro_DescriptionsLow_example0vid,
    exp.intro_DescriptionsLow_example1,
+   exp.intro_DescriptionsLow_example1vid,
    exp.intro_DescriptionsLow_example2,
+   exp.intro_DescriptionsLow_example2vid,
    exp.intro_DescriptionsLow_example3, 
-   exp.preloadLowMI, 
-   exp.task_lowMI, 
-   exp.flowMeasure2,
-   exp.demographics,
-   exp.save_data,
-   exp.end]; 
+   exp.intro_DescriptionsLow_example3vid,
+]};
+
+const lowtask = {
+    timeline: 
+    [exp.preloadLowMI, exp.task_lowMI
+]};
+
+
+//randomly assigning which wheel comes first. 
+    //1 = high comes first, 2 = low comes first
+const randomAssignment = Math.floor(Math.random() * 2) + 1;
+
+// Create the timeline based on the random choice
+let timeline = [];
+
+if (randomAssignment === 1) {
+   // Show high examples and high task first
+   timeline = [
+ 
+      exp.intro_preChk,
+      highexamples,
+      exp.intro_toFirst,
+      hightask,
+      exp.flowMeasure1, 
+      exp.intro_toSecond,
+      lowexamples,
+      lowtask,
+      exp.flowMeasure2,
+      exp.demographics,
+      exp.save_data,
+      exp.end
+   ];
+} else {
+   // Show low examples and low task first
+   timeline = [
+      exp.intro_preChk,
+      lowexamples,
+      exp.intro_toFirst,
+      lowtask,
+      exp.flowMeasure1,
+      exp.intro_toSecond,
+      highexamples,
+      hightask,
+      exp.flowMeasure2,
+      exp.demographics,
+      exp.save_data,
+      exp.end
+   ];
+}
 
 
 jsPsych.run(timeline);
