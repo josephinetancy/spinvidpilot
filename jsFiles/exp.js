@@ -1,7 +1,5 @@
 
-const randomAssignment = Math.floor(Math.random() * 2) + 1;
-console.log(randomAssignment)
-
+const randomAssignment = Math.floor(Math.random() * 2) + 1; //1 = high MI first, 2 = low MI first
 const exp = (function() {
 
 
@@ -22,7 +20,9 @@ const exp = (function() {
 
     let usedVideos = new Set();
 
-    let vidNumber = Math.floor(Math.random()*15);
+    let newVidNumber;
+
+    let videoPath;
 
     let spin_num = 20; //change this to the number of spins. This will change the number of spins AFTER the wheel decelerates. 
 
@@ -203,8 +203,6 @@ let usedVideoPaths = new Set();  // Track full video paths
 const uniqueShortNames = {};
 
 function generateUniqueVideoPath(shortName, max) {
-    let newVidNumber;
-    let videoPath;
 
     // Get a set for the current shortName if not present
     if (!uniqueShortNames[shortName]) {
@@ -241,7 +239,7 @@ function getShortName(longName) {
     return null;
 }
     // trial: spinner
-    const spin = {
+  const spin = {
         type: jsPsychCanvasButtonResponse,
         stimulus: function(c, spinnerData) {
             createSpinner(c, spinnerData, scoreTracker, jsPsych.timelineVariable('sectors'), spin_num); 
@@ -259,9 +257,15 @@ function getShortName(longName) {
         on_finish: function(data) {
             data.spinsSpun = spinsSpun;
             data.randomAssignment = randomAssignment;
-            longName = (data.outcomes[0] || '').trim(); 
+            longName = (data.outcomes[0] || '').trim();
+            account = longName.replace(/<[^>]*>/g, '')  // Remove HTML tags
+                              .replace(/.*@/, '')      // Remove everything before the '@'
+                              .trim();
+
+        // Save the account name in the data
             shortName = getShortName(longName);
-            videoPath = generateUniqueVideoPath(shortName, 15);  // Call the revised function
+            videoPath = generateUniqueVideoPath(shortName, 15); 
+            data.account = account;  
             data.videoPath = videoPath;
             console.log(data);
             spin_num--;
@@ -274,12 +278,16 @@ function getShortName(longName) {
             console.log(videoPath);
             return [videoPath]; 
         },
+            data: {
+            arrangement: jsPsych.timelineVariable('arrangement'), 
+            wheel: jsPsych.timelineVariable('wheel'), 
+            MI: jsPsych.timelineVariable('MI'),
+        },
             width: 640,
             height: 480,
             trial_ends_after_video: true,
             response_ends_trial: false,
-            on_finish: function(data) {
-            spinsSpun++;
+            on_finish: function(data) {;
         }
     };
 
@@ -808,21 +816,61 @@ function getShortName(longName) {
 
     
     // emotion measure
-    const emotionMeasure = {
-        type: jsPsychSurveyMultiSelect,
-        questions: [
-            {
-                prompt: `Which emotion(s) did you feel while watching the video? (Select all that apply.)`,
-                options: ['Affection/Warmth', 'Amusement', 'Anger', 'Annoyance', 'Awe', 'Disgust', 'Fear', 'Embarrassment', 'Outrage','Pride', 'Sadness', 'None of the above'],
-                required: true },
-        ],
-        randomize_question_order: false,
-        scale_width: 600,
-        on_finish: function(data) {
-            data.spinsSpun = spinsSpun;
-            saveSurveyData(data);
+  const emotionMeasure = {
+    type: jsPsychSurveyMultiSelect,
+    questions: [
+        {
+            prompt: `Which emotion(s) did you feel while watching the video? (Select all that apply.)`,
+            options: ['Affection/Warmth', 'Amusement', 'Anger', 'Annoyance', 'Awe', 'Disgust', 'Fear', 'Embarrassment', 'Outrage','Pride', 'Sadness', 'None of the above'],
+            required: true
+        },
+    ],
+    randomize_question_order: false,
+    scale_width: 600,
+    data: {
+        arrangement: jsPsych.timelineVariable('arrangement'), 
+        wheel: jsPsych.timelineVariable('wheel'), 
+        MI: jsPsych.timelineVariable('MI'),
+    },
+    on_finish: function(data) {
+        
+        const emotions = ['Affection/Warmth', 'Amusement', 'Anger', 'Annoyance', 'Awe', 'Disgust', 'Fear', 'Embarrassment', 'Outrage', 'Pride', 'Sadness', 'None of the above'];
+        const selectedEmotions = data.response.Q0 || [];  // Q0 is the default key for the first question in jsPsychSurveyMultiSelect
+        
+        // Create a new object to store binary responses for each emotion
+        const emotionResponses = {};
+        emotions.forEach(emotion => {
+            emotionResponses[emotion] = selectedEmotions.includes(emotion) ? 1 : 0;
+        });
+
+        // Add emotion responses to data
+        Object.assign(data, emotionResponses); 
+
+        data.spinsSpun = spinsSpun;
+        data.randomAssignment = randomAssignment;
+        data.newVidNumber = newVidNumber;
+        data.account = account;   
+        data.videoPath = videoPath;
+        spinsSpun++;
+
+                const MI = jsPsych.timelineVariable('MI');
+        if (MI === 'high') {
+            // Log and save the randomized arrangement of sectors for highMIwheel
+            if (highMIwheel && highMIwheel[0] && highMIwheel[0].sectors) {
+                console.log("Shuffled highMIwheel sectors:", highMIwheel[0].sectors);
+                data.highMISectorArrangement = highMIwheel[0].sectors.map(sector => sector.label);  // Assuming each sector has a 'label' property
+            }
+        } else {
+            // Log and save the randomized arrangement of sectors for lowMIwheel
+            if (lowMIwheel && lowMIwheel[0] && lowMIwheel[0].sectors) {
+                console.log("Shuffled lowMIwheel sectors:", lowMIwheel[0].sectors);
+                data.lowMISectorArrangement = lowMIwheel[0].sectors.map(sector => sector.label);  // Assuming each sector has a 'label' property
+            }
         }
-    }; 
+
+        console.log(data);
+    }
+};
 
 
     // timeline: main task
@@ -1169,10 +1217,10 @@ const lowtask = {
 if (randomAssignment == 1) {
    // Show high examples and high task first
    timeline = [
-    exp.consent,
-      exp.intro_preChk,
-      highexamples,
-      exp.intro_toFirst,
+ //   exp.consent,
+  //    exp.intro_preChk,
+ //     highexamples,
+   //   exp.intro_toFirst,
       hightask,
       exp.flowMeasure1, 
       exp.intro_toSecond, 
@@ -1186,10 +1234,10 @@ if (randomAssignment == 1) {
 } else {
    // Show low examples and low task first
    timeline = [
-    exp.consent,
-      exp.intro_preChk,
-      lowexamples,
-      exp.intro_toFirst,
+  //  exp.consent,
+ //     exp.intro_preChk,
+ //     lowexamples,
+  //    exp.intro_toFirst,
       lowtask,
       exp.flowMeasure1,
       exp.intro_toSecond,
