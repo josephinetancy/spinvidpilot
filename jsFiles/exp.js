@@ -37,6 +37,15 @@ const exp = (function() {
     roundTextLow = '1';
     }
 
+
+    if (randomAssignment == '1') {
+    roundTextHigh = '1';
+    roundTextLow = '2';
+    } else {
+    roundTextHigh = '2';
+    roundTextLow = '1';
+    }
+
     // define each wedge
     const wedges = {
     one: {color:"#806b00", label:`<img src="./img/crazymemescrazyfights.jpeg"> @crazy memes\ncrazy fights`, shortName: "O1", description: `<li><img src="./img/crazymemescrazyfights.jpeg" alt="@crazy memes crazy fights" style="vertical-align:middle; width:40px; height:40px; border-radius: 50%;"> <strong>@crazy memes crazy fights</strong> shows videos that make people mad.</li>`, example: `./example/crazymemescrazyfights.mp4`, descripExample: `<img src="./img/crazymemescrazyfights.jpeg" alt="@crazy memes crazy fights" style="vertical-align:middle; width:40px; height:40px; border-radius: 50%;"> <strong>@crazy memes crazy fights</strong>`, emotion: "mad"},
@@ -742,32 +751,58 @@ function getShortName(longName) {
         questions: [
         {
             prompt: `How immersive was Round 1 of Spin the Wheel?`,
-            name: `flow_0high`,
+            name: `flow_0_Wheel1`,
             labels: FlowScale,
             required: true, 
         },
         {
             prompt: `How engaging was Round 1 of Spin the Wheel?`,
-            name: `flow_1high`,
+            name: `flow_1_Wheel1`,
             labels: FlowScale,
             required: true,
         },
         {
             prompt: `How engrossing was Round 1 of Spin the Wheel?`,
-            name: `flow_2high`,
+            name: `flow_2_Wheel1`,
             labels: FlowScale,
             required: true,
         },
         {
             prompt: `How boring was Round 1 of Spin the Wheel?`,
-            name: `flow_3high`,
+            name: `flow_3_Wheel1`,
             labels: FlowScale,
             required: true,
         },
         ],
         randomize_question_order: false,
         scale_width: 600,
+        data: {
+        arrangement: jsPsych.timelineVariable('arrangement'), 
+        wheel: jsPsych.timelineVariable('wheel'), 
+        MI: jsPsych.timelineVariable('MI'),
+    },
         on_finish: function(data) {
+        data.spinsSpun = spinsSpun;
+        data.randomAssignment = randomAssignment;
+        data.newVidNumber = newVidNumber;
+        data.account = account;   
+        data.videoPath = videoPath;
+        spinsSpun++;
+
+                const MI = jsPsych.timelineVariable('MI');
+        if (MI === 'high') {
+            // Log and save the randomized arrangement of sectors for highMIwheel
+            if (highMIwheel && highMIwheel[0] && highMIwheel[0].sectors) {
+                console.log("Shuffled highMIwheel sectors:", highMIwheel[0].sectors);
+                data.highMISectorArrangement = highMIwheel[0].sectors.map(sector => sector.label);  // Assuming each sector has a 'label' property
+            }
+        } else {
+            // Log and save the randomized arrangement of sectors for lowMIwheel
+            if (lowMIwheel && lowMIwheel[0] && lowMIwheel[0].sectors) {
+                console.log("Shuffled lowMIwheel sectors:", lowMIwheel[0].sectors);
+                data.lowMISectorArrangement = lowMIwheel[0].sectors.map(sector => sector.label);  // Assuming each sector has a 'label' property
+            }
+        }
             spin_num = remainingSpinsReset;
             saveSurveyData(data);
         }
@@ -783,32 +818,58 @@ function getShortName(longName) {
         questions: [
         {
             prompt: `How immersive was Round 2 of Spin the Wheel?`,
-            name: `flow_0low`,
+            name: `flow_0_Wheel2`,
             labels: FlowScale,
             required: true, 
         },
         {
             prompt: `How engaging was Round 2 of Spin the Wheel?`,
-            name: `flow_1low`,
+            name: `flow_1_Wheel2`,
             labels: FlowScale,
             required: true,
         },
         {
             prompt: `How engrossing was Round 2 of Spin the Wheel?`,
-            name: `flow_2low`,
+            name: `flow_2_Wheel2`,
             labels: FlowScale,
             required: true,
         },
         {
             prompt: `How boring was Round 2 of Spin the Wheel?`,
-            name: `flow_3low`,
+            name: `flow_3_Wheel2`,
             labels: FlowScale,
             required: true,
         },
         ],
         randomize_question_order: false,
         scale_width: 600,
-        on_finish: function(data) {
+        data: {
+        arrangement: jsPsych.timelineVariable('arrangement'), 
+        wheel: jsPsych.timelineVariable('wheel'), 
+        MI: jsPsych.timelineVariable('MI'),
+    },
+       on_finish: function(data) {
+        data.spinsSpun = spinsSpun;
+        data.randomAssignment = randomAssignment;
+        data.newVidNumber = newVidNumber;
+        data.account = account;   
+        data.videoPath = videoPath;
+        spinsSpun++;
+
+                const MI = jsPsych.timelineVariable('MI');
+        if (MI === 'high') {
+            // Log and save the randomized arrangement of sectors for highMIwheel
+            if (highMIwheel && highMIwheel[0] && highMIwheel[0].sectors) {
+                console.log("Shuffled highMIwheel sectors:", highMIwheel[0].sectors);
+                data.highMISectorArrangement = highMIwheel[0].sectors.map(sector => sector.label);  // Assuming each sector has a 'label' property
+            }
+        } else {
+            // Log and save the randomized arrangement of sectors for lowMIwheel
+            if (lowMIwheel && lowMIwheel[0] && lowMIwheel[0].sectors) {
+                console.log("Shuffled lowMIwheel sectors:", lowMIwheel[0].sectors);
+                data.lowMISectorArrangement = lowMIwheel[0].sectors.map(sector => sector.label);  // Assuming each sector has a 'label' property
+            }
+        }
             spin_num = remainingSpinsReset;
             saveSurveyData(data);
         }
