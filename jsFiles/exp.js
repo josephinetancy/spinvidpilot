@@ -1278,10 +1278,10 @@ const lowtask = {
 if (randomAssignment == 1) {
    // Show high examples and high task first
    timeline = [
- //   exp.consent,
-  //    exp.intro_preChk,
- //     highexamples,
-   //   exp.intro_toFirst,
+    exp.consent,
+    exp.intro_preChk,
+      highexamples,
+     exp.intro_toFirst,
       hightask,
       exp.flowMeasure1, 
       exp.intro_toSecond, 
@@ -1295,10 +1295,10 @@ if (randomAssignment == 1) {
 } else {
    // Show low examples and low task first
    timeline = [
-  //  exp.consent,
- //     exp.intro_preChk,
- //     lowexamples,
-  //    exp.intro_toFirst,
+    exp.consent,
+      exp.intro_preChk,
+      lowexamples,
+      exp.intro_toFirst,
       lowtask,
       exp.flowMeasure1,
       exp.intro_toSecond,
