@@ -1296,7 +1296,7 @@ if (randomAssignment == 1) {
       exp.intro_toSecond, 
       lowexamples,
       lowtask,
-      exp.flowMeasure2,
+      exp.flowMeasure,
       exp.demographics,
       exp.save_data,
       exp.end
@@ -1313,7 +1313,7 @@ if (randomAssignment == 1) {
       exp.intro_toSecond,
       highexamples,
       hightask,
-      exp.flowMeasure2,
+      exp.flowMeasure,
       exp.demographics,
       exp.save_data,
       exp.end
