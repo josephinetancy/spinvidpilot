@@ -39,7 +39,7 @@ const exp = (function() {
     roundTextLow = '1';
     }
 
-    if (spinsSpun == '20') {
+    if (spinsSpun == '21') {
     flowmeasureText = '1';
     } else {
     flowmeasureText= '2';
@@ -801,6 +801,7 @@ function getShortName(longName) {
         }
             spin_num = remainingSpinsReset;
             console.log(data);
+            console.log(spinsSpun);
             saveSurveyData(data);
         }
     };
@@ -1286,10 +1287,9 @@ const lowtask = {
 if (randomAssignment == 1) {
    // Show high examples and high task first
    timeline = [
-  
     exp.consent,
     exp.intro_preChk,
-      highexamples,
+      highexamples, 
      exp.intro_toFirst,
       hightask,  
       exp.flowMeasure, 
