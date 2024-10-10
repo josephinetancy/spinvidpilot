@@ -39,13 +39,10 @@ const exp = (function() {
     roundTextLow = '1';
     }
 
-
-    if (randomAssignment == '1') {
-    roundTextHigh = '1';
-    roundTextLow = '2';
+    if (spinsSpun == '20') {
+    flowmeasureText = '1';
     } else {
-    roundTextHigh = '2';
-    roundTextLow = '1';
+    flowmeasureText= '2';
     }
 
     // define each wedge
@@ -743,35 +740,35 @@ function getShortName(longName) {
        
     const FlowScale = ['0<br>Not at all', '1<br>', '2<br>', '3<br>', '4<br>', '5<br>', '6<br>', '7<br>','8<br>Extremely'];
     
-    p.flowMeasure1 = {
+    p.flowMeasure = {
         type: jsPsychSurveyLikert,
         preamble: 
         `<div style='padding-top: 50px; width: 900px; font-size:16px'> 
-            <p>How immersed and engaged did you feel during Round 1 of Spin the Wheel? </p>
+            <p>How immersed and engaged did you feel during Round ${flowmeasureText} of Spin the Wheel? </p>
             <p>To report how immersed and engaged you felt, please answer the following questions.</p>
         </div>`,
         questions: [
         {
-            prompt: `How immersive was Round 1 of Spin the Wheel?`,
-            name: `flow_0_Wheel1`,
+            prompt: `How immersive was Round ${flowmeasureText} of Spin the Wheel?`,
+            name: `flow_0`,
             labels: FlowScale,
             required: true, 
         },
         {
-            prompt: `How engaging was Round 1 of Spin the Wheel?`,
-            name: `flow_1_Wheel1`,
+            prompt: `How engaging was Round ${flowmeasureText} of Spin the Wheel?`,
+            name: `flow_1`,
             labels: FlowScale,
             required: true,
         },
         {
-            prompt: `How engrossing was Round 1 of Spin the Wheel?`,
-            name: `flow_2_Wheel1`,
+            prompt: `How engrossing was Round ${flowmeasureText} of Spin the Wheel?`,
+            name: `flow_2`,
             labels: FlowScale,
             required: true,
         },
         {
-            prompt: `How boring was Round 1 of Spin the Wheel?`,
-            name: `flow_3_Wheel1`,
+            prompt: `How boring was Round ${flowmeasureText} of Spin the Wheel?`,
+            name: `flow_3`,
             labels: FlowScale,
             required: true,
         },
@@ -807,7 +804,7 @@ function getShortName(longName) {
             saveSurveyData(data);
         }
     };
-
+/*
     p.flowMeasure2 = {
         type: jsPsychSurveyLikert,
         preamble: 
@@ -872,7 +869,7 @@ function getShortName(longName) {
             spin_num = remainingSpinsReset;
             saveSurveyData(data);
         }
-    };
+    }; */
 
     
     // emotion measure
@@ -938,7 +935,7 @@ function getShortName(longName) {
 p.preloadHighMI = {
     type: jsPsychPreload,
     video: highMIVideoPaths,
-    message: `<p>Now loading the first wheel... </p> <p> As a reminder, you'll be spinning this wheel: </p><p>${highpreviewWheel}</p></ul><br>`,
+    message: `<p>Now loading the wheel... </p> <p> As a reminder, you'll be spinning this wheel: </p><p>${highpreviewWheel}</p></ul><br>`,
     on_success: function(file) {
         console.log('Loaded: ', file);
     },
@@ -951,7 +948,7 @@ p.preloadHighMI = {
 p.preloadHighMI_examples = {
     type: jsPsychPreload,
     video: highMIexamples,
-    message: ` <p>Now loading example videos for Round 1... </p><p>${highpreviewWheel}</p>`,
+    message: ` <p>Now loading example videos for this wheel... </p><p>${highpreviewWheel}</p>`,
     on_success: function(file) {
         console.log('Loaded: ', file);
     },
@@ -963,7 +960,7 @@ p.preloadHighMI_examples = {
 p.preloadLowMI = {
         type: jsPsychPreload,
         video: lowMIVideoPaths,
-        message: `<p> Now loading the second wheel... </p> <p> As a reminder, you'll be spinning this wheel: </p><p>${lowpreviewWheel}<br>`,
+        message: `<p> Now loading the wheel... </p> <p> As a reminder, you'll be spinning this wheel: </p><p>${lowpreviewWheel}<br>`,
         on_success: function(file) {
             console.log('Loaded: ', file);
     }
@@ -972,7 +969,7 @@ p.preloadLowMI = {
 p.preloadLowMI_examples = {
     type: jsPsychPreload,
     video: lowMIexamples,
-    message: `<p>Now loading example videos for Round 2... </p><p>${lowpreviewWheel}</p>`,
+    message: `<p>Now loading example videos for this wheel... </p><p>${lowpreviewWheel}</p>`,
     on_success: function(file) {
         console.log('Loaded: ', file);
     },
@@ -1289,13 +1286,13 @@ const lowtask = {
 if (randomAssignment == 1) {
    // Show high examples and high task first
    timeline = [
-    
+  
     exp.consent,
     exp.intro_preChk,
       highexamples,
      exp.intro_toFirst,
       hightask,  
-      exp.flowMeasure1, 
+      exp.flowMeasure, 
       exp.intro_toSecond, 
       lowexamples,
       lowtask,
@@ -1312,7 +1309,7 @@ if (randomAssignment == 1) {
       lowexamples,
       exp.intro_toFirst,
       lowtask,
-      exp.flowMeasure1,
+      exp.flowMeasure,
       exp.intro_toSecond,
       highexamples,
       hightask,
