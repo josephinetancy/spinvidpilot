@@ -24,6 +24,8 @@ const exp = (function() {
 
     let videoPath;
 
+    let currentVariables = {};
+
     let spin_num = 20; //change this to the number of spins. This will change the number of spins AFTER the wheel decelerates. 
 
     //randomly assigning which wheel comes first. 
@@ -777,33 +779,31 @@ function getShortName(longName) {
         randomize_question_order: false,
         scale_width: 600,
         data: {
-        arrangement: jsPsych.timelineVariable('arrangement'), 
-        wheel: jsPsych.timelineVariable('wheel'), 
-        MI: jsPsych.timelineVariable('MI'),
+        arrangement: currentVariables.arrangement,
+        wheel: currentVariables.wheel,
+        MI: currentVariables.MI,
     },
         on_finish: function(data) {
-        data.spinsSpun = spinsSpun;
-        data.randomAssignment = randomAssignment;
-        data.newVidNumber = newVidNumber;
-        data.account = account;   
-        data.videoPath = videoPath;
-        spinsSpun++;
 
-                const MI = jsPsych.timelineVariable('MI');
+        data.arrangement = currentVariables.arrangement;
+        data.wheel = currentVariables.wheel;
+        data.MI = currentVariables.MI; 
+        const MI = jsPsych.timelineVariable('MI');
+        data.randomAssignment = randomAssignment;
+
         if (MI === 'high') {
             // Log and save the randomized arrangement of sectors for highMIwheel
             if (highMIwheel && highMIwheel[0] && highMIwheel[0].sectors) {
-                console.log("Shuffled highMIwheel sectors:", highMIwheel[0].sectors);
                 data.highMISectorArrangement = highMIwheel[0].sectors.map(sector => sector.label);  // Assuming each sector has a 'label' property
             }
         } else {
             // Log and save the randomized arrangement of sectors for lowMIwheel
             if (lowMIwheel && lowMIwheel[0] && lowMIwheel[0].sectors) {
-                console.log("Shuffled lowMIwheel sectors:", lowMIwheel[0].sectors);
                 data.lowMISectorArrangement = lowMIwheel[0].sectors.map(sector => sector.label);  // Assuming each sector has a 'label' property
             }
         }
             spin_num = remainingSpinsReset;
+            console.log(data);
             saveSurveyData(data);
         }
     };
@@ -844,19 +844,18 @@ function getShortName(longName) {
         randomize_question_order: false,
         scale_width: 600,
         data: {
-        arrangement: jsPsych.timelineVariable('arrangement'), 
-        wheel: jsPsych.timelineVariable('wheel'), 
-        MI: jsPsych.timelineVariable('MI'),
+        arrangement: currentVariables.arrangement,
+        wheel: currentVariables.wheel,
+        MI: currentVariables.MI
     },
        on_finish: function(data) {
-        data.spinsSpun = spinsSpun;
+    
+        data.arrangement = currentVariables.arrangement;
+        data.wheel = currentVariables.wheel;
+        data.MI = currentVariables.MI; 
+        const MI = jsPsych.timelineVariable('MI');
         data.randomAssignment = randomAssignment;
-        data.newVidNumber = newVidNumber;
-        data.account = account;   
-        data.videoPath = videoPath;
-        spinsSpun++;
 
-                const MI = jsPsych.timelineVariable('MI');
         if (MI === 'high') {
             // Log and save the randomized arrangement of sectors for highMIwheel
             if (highMIwheel && highMIwheel[0] && highMIwheel[0].sectors) {
@@ -1118,14 +1117,26 @@ p.intro_DescriptionsLow_example3vid = {
     p.task_highMI = {
         timeline: [spin, video_load, emotionMeasure],
         repetitions: spin_num, //this should be the number of repetitions for each spin + video combo..
-        timeline_variables: highMIwheel
+        timeline_variables: highMIwheel,
+        on_timeline_finish: function() {
+        // Set current variables from timeline_variables
+        currentVariables.arrangement = jsPsych.timelineVariable('arrangement', true);
+        currentVariables.wheel = jsPsych.timelineVariable('wheel', true);
+        currentVariables.MI = jsPsych.timelineVariable('MI', true);
+    }
     }; 
 
 
     p.task_lowMI = {
         timeline: [spin, video_load, emotionMeasure],
         repetitions: spin_num, //this should be the number of repetitions for each spin + video combo..
-        timeline_variables: lowMIwheel
+        timeline_variables: lowMIwheel,
+        on_timeline_finish: function() {
+        // Set current variables from timeline_variables
+        currentVariables.arrangement = jsPsych.timelineVariable('arrangement', true);
+        currentVariables.wheel = jsPsych.timelineVariable('wheel', true);
+        currentVariables.MI = jsPsych.timelineVariable('MI', true);
+    }
     }; 
 
    /*
@@ -1278,11 +1289,12 @@ const lowtask = {
 if (randomAssignment == 1) {
    // Show high examples and high task first
    timeline = [
+    
     exp.consent,
     exp.intro_preChk,
       highexamples,
      exp.intro_toFirst,
-      hightask,
+      hightask,  
       exp.flowMeasure1, 
       exp.intro_toSecond, 
       lowexamples,
