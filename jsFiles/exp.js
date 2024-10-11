@@ -28,6 +28,8 @@ const exp = (function() {
 
     let spin_num = 20; //change this to the number of spins. This will change the number of spins AFTER the wheel decelerates. 
 
+    let spin_numText = 20; // should be the same number as spin_num
+
     //randomly assigning which wheel comes first. 
     //1 = high comes first, 2 = low comes first
 
@@ -749,9 +751,9 @@ p.flowMeasure = {
         MI: currentVariables.MI,
     },
     on_start: function(trial) {
- //   const previousSpinSpun = jsPsych.data.get().last(1).values()[0].spinsSpun;
- //   console.log("Retrieved spinsSpun:", previousSpinSpun); // Log the retrieved value
-    const roundText = spin_num === 0 ? '1' : '2';
+    const previousSpinSpun = jsPsych.data.get().last(1).values()[0].spinsSpun;
+    console.log("Retrieved spinsSpun:", previousSpinSpun); // Log the retrieved value
+    const roundText = previousSpinSpun === spin_numText ? '1' : '2'; 
     console.log("Retrieved spin_num:", spin_num); 
     console.log("Calculated roundText:", roundText); // Log the calculated roundText
     
@@ -1308,7 +1310,7 @@ if (randomAssignment == 1) {
       lowtask,
       exp.flowMeasure,
       exp.demographics,
-      exp.save_data,
+     exp.save_data,
       exp.end
    ];
 } else {
