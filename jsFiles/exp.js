@@ -39,12 +39,6 @@ const exp = (function() {
     roundTextLow = '1';
     }
 
-    if (spinsSpun == '21') {
-    flowmeasureText = '1';
-    } else {
-    flowmeasureText= '2';
-    }
-
     // define each wedge
     const wedges = {
     one: {color:"#806b00", label:`<img src="./img/crazymemescrazyfights.jpeg"> @crazy memes\ncrazy fights`, shortName: "O1", description: `<li><img src="./img/crazymemescrazyfights.jpeg" alt="@crazy memes crazy fights" style="vertical-align:middle; width:40px; height:40px; border-radius: 50%;"> <strong>@crazy memes crazy fights</strong> shows videos that make people mad.</li>`, example: `./example/crazymemescrazyfights.mp4`, descripExample: `<img src="./img/crazymemescrazyfights.jpeg" alt="@crazy memes crazy fights" style="vertical-align:middle; width:40px; height:40px; border-radius: 50%;"> <strong>@crazy memes crazy fights</strong>`, emotion: "mad"},
@@ -737,74 +731,90 @@ function getShortName(longName) {
             post_trial_gap: 500,
         }; 
 
+//const previousSpinSpun = jsPsych.data.get().last(1).values()[0].spinsSpun;
+
+//const roundText = previousSpinSpun === 3 ? '1' : '2';
        
     const FlowScale = ['0<br>Not at all', '1<br>', '2<br>', '3<br>', '4<br>', '5<br>', '6<br>', '7<br>','8<br>Extremely'];
     
-    p.flowMeasure = {
-        type: jsPsychSurveyLikert,
-        preamble: 
-        `<div style='padding-top: 50px; width: 900px; font-size:16px'> 
-            <p>How immersed and engaged did you feel during Round ${flowmeasureText} of Spin the Wheel? </p>
-            <p>To report how immersed and engaged you felt, please answer the following questions.</p>
-        </div>`,
-        questions: [
-        {
-            prompt: `How immersive was Round ${flowmeasureText} of Spin the Wheel?`,
-            name: `flow_0`,
-            labels: FlowScale,
-            required: true, 
-        },
-        {
-            prompt: `How engaging was Round ${flowmeasureText} of Spin the Wheel?`,
-            name: `flow_1`,
-            labels: FlowScale,
-            required: true,
-        },
-        {
-            prompt: `How engrossing was Round ${flowmeasureText} of Spin the Wheel?`,
-            name: `flow_2`,
-            labels: FlowScale,
-            required: true,
-        },
-        {
-            prompt: `How boring was Round ${flowmeasureText} of Spin the Wheel?`,
-            name: `flow_3`,
-            labels: FlowScale,
-            required: true,
-        },
-        ],
-        randomize_question_order: false,
-        scale_width: 600,
-        data: {
+p.flowMeasure = {
+    type: jsPsychSurveyLikert,
+    preamble: '',
+    questions: [],
+    randomize_question_order: false,
+    scale_width: 600,
+    data: {
         arrangement: currentVariables.arrangement,
         wheel: currentVariables.wheel,
         MI: currentVariables.MI,
     },
-        on_finish: function(data) {
-
+    on_start: function(trial) {
+ //   const previousSpinSpun = jsPsych.data.get().last(1).values()[0].spinsSpun;
+ //   console.log("Retrieved spinsSpun:", previousSpinSpun); // Log the retrieved value
+    const roundText = spin_num === 0 ? '1' : '2';
+    console.log("Retrieved spin_num:", spin_num); 
+    console.log("Calculated roundText:", roundText); // Log the calculated roundText
+    
+        // Update the preamble with the dynamic round text
+        trial.preamble = `
+            <div style='padding-top: 50px; width: 900px; font-size:16px'> 
+                <p>How immersed and engaged did you feel during Round ${roundText} of Spin the Wheel?</p>
+                <p>To report how immersed and engaged you felt, please answer the following questions.</p>
+            </div>`;
+        
+        // Update the questions with the dynamic round text
+        trial.questions = [
+            {
+                prompt: `How immersive was Round ${roundText} of Spin the Wheel?`,
+                name: `flow_0`,
+                labels: FlowScale,
+                required: true,
+            },
+            {
+                prompt: `How engaging was Round ${roundText} of Spin the Wheel?`,
+                name: `flow_1`,
+                labels: FlowScale,
+                required: true,
+            },
+            {
+                prompt: `How engrossing was Round ${roundText} of Spin the Wheel?`,
+                name: `flow_2`,
+                labels: FlowScale,
+                required: true,
+            },
+            {
+                prompt: `How boring was Round ${roundText} of Spin the Wheel?`,
+                name: `flow_3`,
+                labels: FlowScale,
+                required: true,
+            }
+        ];
+    },
+    on_finish: function(data) {
         data.arrangement = currentVariables.arrangement;
         data.wheel = currentVariables.wheel;
         data.MI = currentVariables.MI; 
+        data.spinsSpun = spinsSpun;
+
         const MI = jsPsych.timelineVariable('MI');
         data.randomAssignment = randomAssignment;
 
         if (MI === 'high') {
-            // Log and save the randomized arrangement of sectors for highMIwheel
             if (highMIwheel && highMIwheel[0] && highMIwheel[0].sectors) {
-                data.highMISectorArrangement = highMIwheel[0].sectors.map(sector => sector.label);  // Assuming each sector has a 'label' property
+                data.highMISectorArrangement = highMIwheel[0].sectors.map(sector => sector.label);
             }
         } else {
-            // Log and save the randomized arrangement of sectors for lowMIwheel
             if (lowMIwheel && lowMIwheel[0] && lowMIwheel[0].sectors) {
-                data.lowMISectorArrangement = lowMIwheel[0].sectors.map(sector => sector.label);  // Assuming each sector has a 'label' property
+                data.lowMISectorArrangement = lowMIwheel[0].sectors.map(sector => sector.label);
             }
         }
-            spin_num = remainingSpinsReset;
-            console.log(data);
-            console.log(spinsSpun);
-            saveSurveyData(data);
-        }
-    };
+
+        spin_num = remainingSpinsReset;
+        console.log(data);
+        console.log(spinsSpun);
+        saveSurveyData(data);
+    }
+};
 /*
     p.flowMeasure2 = {
         type: jsPsychSurveyLikert,
