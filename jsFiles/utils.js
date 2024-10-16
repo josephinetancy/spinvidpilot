@@ -1,22 +1,3 @@
-//checking data
-
-
-const jsPsych = initJsPsych({
-    on_finish: (data) => {
-        // Log all the collected data to the console
- /*       console.log('Trial data:', jsPsych.data.get().json());
-
-        // Optional: Display data on the page
-        document.body.innerHTML = 
-            `<div align='center' style="margin: 10%">
-                <p>Trial Data:</p>
-                <pre>${JSON.stringify(jsPsych.data.get().json(), null, 2)}</pre>
-            </div>`; */
-        }
-    });
-
-
-/*
 
 // initialize jsPsych
 const jsPsych = initJsPsych({
@@ -34,7 +15,7 @@ const jsPsych = initJsPsych({
             }, 1000);
         }
     },
-}); */
+}); 
 
 // set and save subject ID
 let subject_id = jsPsych.data.getURLVariable("PROLIFIC_PID");
