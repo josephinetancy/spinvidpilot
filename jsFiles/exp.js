@@ -306,14 +306,14 @@ function getShortName(longName) {
         intro_preChk: [
             `<div class='parent'>
                 <p><strong> Welcome to "Spin the Wheel"! </strong></p>
-                <p>We're interested in your response and thoughts about a game of chance, where outcomes are random rather than controlled. </p>
-                <p>Specifically, you'll play a game of chance called spin a wheel. </p> 
-                <p>To add a fun twist, you'll watch a Twitter video after each spin. </p>
+                <p>We're interested in your thoughts about a game of chance, where outcomes are random rather than controlled. </p>
+                <p>Specifically, you'll play a game of chance called Spin the Wheel. </p> 
+                <p>To add a fun twist, you'll watch a video from 'X' (Twitter) after each spin. </p>
                 <img src="./img/spin.gif" style="width:65%; height:auto;">
             </div>`,
 
             `<div class='parent'>
-                <p>Each wheel has 4 different Twitter accounts. </p>
+                <p>Each wheel displays 4 different Twitter accounts. </p>
                 <p>When you spin the wheel, you'll land on an account and watch a video posted by that account. </p> 
                 <p>For example, if you land on <img src="./img/yoda4ever.jpeg" alt="@yoda4ever" style="vertical-align:middle; width:40px; height:40px; border-radius: 50%;"><strong>@yoda4ever</strong>, you'll watch a video from <img src="./img/yoda4ever.jpeg" alt="@yoda4ever" style="vertical-align:middle; width:40px; height:40px; border-radius: 50%;"><strong>@yoda4ever</strong>'s feed.</p>
                 <img src="./img/examplewheel.jpeg" style="width:40%; height:auto;">
@@ -321,7 +321,7 @@ function getShortName(longName) {
 
             `<div class='parent'>
                 <p>You'll play 2 rounds of Spin the Wheel. </p>
-                <p>For each round, you'll spin the wheel 20 times. </p> <p> After each round, you'll answer questions about your experience spinning the wheel. </p>
+                <p>During each round, you'll spin the wheel 20 times. </p> <p> After each round, you'll answer questions about your experience spinning the wheel. </p>
                 <img src="./img/examplewheel.jpeg" style="width:40%; height:auto;">
             </div>`
         ],
@@ -349,7 +349,7 @@ function getShortName(longName) {
 
         intro_DescriptionsLow_example0: [
             `<div class='parent'>
-            <p>First is a video from ${lowMIDescripExamples[0]}'s feed. </p>
+            <p>First you'll watch a video from ${lowMIDescripExamples[0]}'s feed. </p>
              <p> Watch the video to get a sense of the type of content that ${lowMIDescripExamples[0]} posts. </p>
             <p>Please make sure your volume is turned on. </p>
             </p>
@@ -357,7 +357,7 @@ function getShortName(longName) {
 
         intro_DescriptionsLow_example1: [
              `<div class='parent'>
-            <p>Next is a video from ${lowMIDescripExamples[1]}'s feed. </p>
+            <p>Next you'll watch a video from ${lowMIDescripExamples[1]}'s feed. </p>
              <p> Watch the video to get a sense of the type of content that ${lowMIDescripExamples[1]} posts. </p>
             <p>Please make sure your volume is turned on. </p>
             </p>
@@ -366,7 +366,7 @@ function getShortName(longName) {
 
         intro_DescriptionsLow_example2: [
              `<div class='parent'>
-            <p>Third is a video from ${lowMIDescripExamples[2]}'s feed. </p>
+            <p>Next you'll watch a video from ${lowMIDescripExamples[2]}'s feed. </p>
              <p> Watch the video to get a sense of the type of content that ${lowMIDescripExamples[2]} posts. </p>
             <p>Please make sure your volume is turned on. </p>
             </p>
@@ -375,7 +375,7 @@ function getShortName(longName) {
 
         intro_DescriptionsLow_example3: [
              `<div class='parent'>
-            <p>Last is a video from ${lowMIDescripExamples[3]}'s feed. </p>
+            <p>Next you'll watch a video from ${lowMIDescripExamples[3]}'s feed. </p>
              <p> Watch the video to get a sense of the type of content that ${lowMIDescripExamples[3]} posts. </p>
             <p>Please make sure your volume is turned on. </p>
             </p>
@@ -393,7 +393,7 @@ function getShortName(longName) {
 
         intro_DescriptionsHigh_example0: [
             `<div class='parent'>
-            <p>First is a video from ${highMIDescripExamples[0]}'s feed. </p>
+            <p>First you'll watch a video from ${highMIDescripExamples[0]}'s feed. </p>
              <p> Watch the video to get a sense of the type of content that ${highMIDescripExamples[0]} posts. </p>
             <p>Please make sure your volume is turned on. </p>
             </p>
@@ -402,7 +402,7 @@ function getShortName(longName) {
 
         intro_DescriptionsHigh_example1: [
             `<div class='parent'>
-            <p>Next is a video from ${highMIDescripExamples[1]}'s feed. </p>
+            <p>Next you'll watch a video from ${highMIDescripExamples[1]}'s feed. </p>
              <p> Watch the video to get a sense of the type of content that ${highMIDescripExamples[1]} posts. </p>
             <p>Please make sure your volume is turned on. </p>
             </p>
@@ -411,7 +411,7 @@ function getShortName(longName) {
 
         intro_DescriptionsHigh_example2: [
             `<div class='parent'>
-            <p>Third is a video from ${highMIDescripExamples[2]}'s feed. </p>
+            <p>Next you'll watch a video from ${highMIDescripExamples[2]}'s feed. </p>
              <p> Watch the video to get a sense of the type of content that ${highMIDescripExamples[2]} posts. </p>
             <p>Please make sure your volume is turned on. </p>
             </p>
@@ -420,7 +420,7 @@ function getShortName(longName) {
 
         intro_DescriptionsHigh_example3: [
             `<div class='parent'>
-            <p>Last is a video from ${highMIDescripExamples[3]}'s feed. </p>
+            <p>Next you'll watch a video from ${highMIDescripExamples[3]}'s feed. </p>
              <p> Watch the video to get a sense of the type of content that ${highMIDescripExamples[3]} posts. </p>
             <p>Please make sure your volume is turned on. </p>
             </p>
@@ -460,7 +460,7 @@ function getShortName(longName) {
             preamble: `<div class='parent'>
                <p> For Round ${roundTextHigh}, you'll be spinning this wheel:</p> 
                 <p>${highpreviewWheel}</p>
-                <p> Before you continue, please answer the following questions: </p>
+                <p> Before you continue, please indicate whether the following statements are true or false: </p>
                 </div>`,
             questions: [
                 {
