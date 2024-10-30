@@ -558,9 +558,9 @@ function getShortName(longName) {
  const attnChk_low = {
             type: jsPsychSurveyMultiChoice,
              preamble: `<div class='parent'>
-               <p> For Round ${roundTextLow}, you'll be spinning this wheel:</p> 
+                <p> For Round ${roundTextLow}, you'll be spinning this wheel:</p> 
                 <p>${lowpreviewWheel}</p>
-                <br>
+                <p>Before you continue, please indicate whether the following statements are true or false: </p>
                 </div>`,
             questions: [
                 {
