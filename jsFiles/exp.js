@@ -111,6 +111,9 @@ function shuffleArray(array) {
   return array;
 }
 
+
+/* Shuffling sectors outside of spin 
+
 if (!lowMIwheel[0] || !Array.isArray(lowMIwheel[0].sectors)) {
   console.error("lowMIwheel[0].sectors is not an array or is undefined.");
 } else {
@@ -132,7 +135,7 @@ if (!highMIwheel[0] || !Array.isArray(highMIwheel[0].sectors)) {
   // Randomize order of sectors 
   highMIwheel[0].sectors = shuffleArray([...highMIwheel[0].sectors]);
   console.log("Shuffled highMIwheel sectors:", highMIwheel[0].sectors);
-}
+} */
 
     //wheel preloading
 function getVideoPaths(wheel) {
@@ -244,37 +247,38 @@ function getShortName(longName) {
 }
     // trial: spinner
   const spin = {
-        type: jsPsychCanvasButtonResponse,
-        stimulus: function(c, spinnerData) {
-            createSpinner(c, spinnerData, scoreTracker, jsPsych.timelineVariable('sectors'), spin_num); 
+    type: jsPsychCanvasButtonResponse,
+    stimulus: function(c, spinnerData) {
+        let shuffledSectors = shuffleArray([...jsPsych.timelineVariable('sectors')]);
+        createSpinner(c, spinnerData, scoreTracker, shuffledSectors, spin_num);
         },
-        canvas_size: [500, 500],
-        score: function() {
-            return scoreTracker
-        },
-        post_trial_gap: 1000,
-        data: {
-            arrangement: jsPsych.timelineVariable('arrangement'), 
-            wheel: jsPsych.timelineVariable('wheel'), 
-            MI: jsPsych.timelineVariable('MI'),
-        },
-        on_finish: function(data) {
-            data.spinsSpun = spinsSpun;
-            data.randomAssignment = randomAssignment;
-            longName = (data.outcomes[0] || '').trim();
-            account = longName.replace(/<[^>]*>/g, '')  // Remove HTML tags
-                              .replace(/.*@/, '')      // Remove everything before the '@'
-                              .trim();
+    canvas_size: [500, 500],
+    score: function() {
+        return scoreTracker;
+    },
+    post_trial_gap: 1000,
+    data: {
+        arrangement: jsPsych.timelineVariable('arrangement'), 
+        wheel: jsPsych.timelineVariable('wheel'), 
+        MI: jsPsych.timelineVariable('MI'),
+    },
+    on_finish: function(data) {
+        data.spinsSpun = spinsSpun;
+        data.randomAssignment = randomAssignment;
+        longName = (data.outcomes[0] || '').trim();
+        account = longName.replace(/<[^>]*>/g, '')  // Remove HTML tags
+                          .replace(/.*@/, '')       // Remove everything before the '@'
+                          .trim();
 
         // Save the account name in the data
-            shortName = getShortName(longName);
-            videoPath = generateUniqueVideoPath(shortName, 15); 
-            data.account = account;  
-            data.videoPath = videoPath;
-            console.log(data);
-            spin_num--;
-        }
-    };
+        shortName = getShortName(longName);
+        videoPath = generateUniqueVideoPath(shortName, 15); 
+        data.account = account;  
+        data.videoPath = videoPath;
+        console.log(data);
+        spin_num--;
+    }
+};
 
     const video_load = {
         type: jsPsychVideoKeyboardResponse,
@@ -385,7 +389,7 @@ function getShortName(longName) {
         intro_toFirst: [
             `<div class='parent'>
              <p>You're now ready to play Round 1!</p> 
-             <p>Please make sure you're volume is on. </p> 
+             <p>Please make sure your volume is on. </p> 
              <p> Just grab the wheel with your cursor and give it a spin!</p>
              <p> Click "Next" to continue. </p>
         </div>`
@@ -801,16 +805,6 @@ p.flowMeasure = {
         const MI = jsPsych.timelineVariable('MI');
         data.randomAssignment = randomAssignment;
 
-        if (MI === 'high') {
-            if (highMIwheel && highMIwheel[0] && highMIwheel[0].sectors) {
-                data.highMISectorArrangement = highMIwheel[0].sectors.map(sector => sector.label);
-            }
-        } else {
-            if (lowMIwheel && lowMIwheel[0] && lowMIwheel[0].sectors) {
-                data.lowMISectorArrangement = lowMIwheel[0].sectors.map(sector => sector.label);
-            }
-        }
-
         spin_num = remainingSpinsReset;
         console.log(data);
         console.log(spinsSpun);
@@ -922,21 +916,6 @@ p.flowMeasure = {
         data.account = account;   
         data.videoPath = videoPath;
         spinsSpun++;
-
-                const MI = jsPsych.timelineVariable('MI');
-        if (MI === 'high') {
-            // Log and save the randomized arrangement of sectors for highMIwheel
-            if (highMIwheel && highMIwheel[0] && highMIwheel[0].sectors) {
-                console.log("Shuffled highMIwheel sectors:", highMIwheel[0].sectors);
-                data.highMISectorArrangement = highMIwheel[0].sectors.map(sector => sector.label);  // Assuming each sector has a 'label' property
-            }
-        } else {
-            // Log and save the randomized arrangement of sectors for lowMIwheel
-            if (lowMIwheel && lowMIwheel[0] && lowMIwheel[0].sectors) {
-                console.log("Shuffled lowMIwheel sectors:", lowMIwheel[0].sectors);
-                data.lowMISectorArrangement = lowMIwheel[0].sectors.map(sector => sector.label);  // Assuming each sector has a 'label' property
-            }
-        }
 
         console.log(data);
     }
@@ -1299,9 +1278,9 @@ const lowtask = {
 if (randomAssignment == 1) {
    // Show high examples and high task first
    timeline = [
-    exp.consent,
+   /* exp.consent,
     exp.intro_preChk,
-      highexamples, 
+      highexamples, */
      exp.intro_toFirst,
       hightask,  
       exp.flowMeasure, 
@@ -1316,9 +1295,9 @@ if (randomAssignment == 1) {
 } else {
    // Show low examples and low task first
    timeline = [
-    exp.consent,
+   /* exp.consent,
       exp.intro_preChk,
-      lowexamples,
+      lowexamples,*/
       exp.intro_toFirst,
       lowtask,
       exp.flowMeasure,
