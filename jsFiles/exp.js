@@ -764,33 +764,39 @@ p.flowMeasure = {
         // Update the preamble with the dynamic round text
         trial.preamble = `
             <div style='padding-top: 50px; width: 900px; font-size:16px'> 
-                <p>How immersed and engaged did you feel during Round ${roundText} of Spin the Wheel?</p>
+                <p>How immersed and engaged did you feel while spinning this wheel?</p>
                 <p>To report how immersed and engaged you felt, please answer the following questions.</p>
             </div>`;
         
         // Update the questions with the dynamic round text
         trial.questions = [
             {
-                prompt: `How immersive was Round ${roundText} of Spin the Wheel?`,
+                prompt: `How immersed did you feel spinning the wheel in Round ${roundText}?`,
                 name: `flow_0`,
                 labels: FlowScale,
                 required: true,
             },
             {
-                prompt: `How engaging was Round ${roundText} of Spin the Wheel?`,
+                prompt: `How engaged did you feel spinning the wheel in Round ${roundText}?`,
                 name: `flow_1`,
                 labels: FlowScale,
                 required: true,
             },
             {
-                prompt: `How engrossing was Round ${roundText} of Spin the Wheel?`,
+                prompt: `How engrossed did you feel spinning the wheel in Round ${roundText}?`,
                 name: `flow_2`,
                 labels: FlowScale,
                 required: true,
             },
             {
-                prompt: `How boring was Round ${roundText} of Spin the Wheel?`,
+                prompt: `How absorbed did you feel spinning the wheel in Round ${roundText}?`,
                 name: `flow_3`,
+                labels: FlowScale,
+                required: true,
+            },
+            {
+                prompt: `How bored did you feel spinning the wheel in Round ${roundText}?`,
+                name: `flow_4`,
                 labels: FlowScale,
                 required: true,
             }
@@ -1278,7 +1284,7 @@ const lowtask = {
 if (randomAssignment == 1) {
    // Show high examples and high task first
    timeline = [
-    exp.consent,
+  //  exp.consent,
     exp.intro_preChk,
       highexamples, 
      exp.intro_toFirst,
@@ -1295,9 +1301,9 @@ if (randomAssignment == 1) {
 } else {
    // Show low examples and low task first
    timeline = [
-    exp.consent,
+   // exp.consent,
       exp.intro_preChk,
-      lowexamples,
+     lowexamples,
       exp.intro_toFirst,
       lowtask,
       exp.flowMeasure,
