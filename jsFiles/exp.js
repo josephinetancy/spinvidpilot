@@ -30,6 +30,8 @@ const exp = (function() {
 
     let spin_numText = 20; // should be the same number as spin_num
 
+    let flowMeasureCount = 0; 
+
     //randomly assigning which wheel comes first. 
     //1 = high comes first, 2 = low comes first
 
@@ -760,10 +762,19 @@ p.flowMeasure = {
     const roundText = previousSpinSpun === spin_numText ? '1' : '2'; 
     console.log("Retrieved spin_num:", spin_num); 
     console.log("Calculated roundText:", roundText); // Log the calculated roundText
+
+    let previewWheel;
+    if (randomAssignment === 1) {
+            previewWheel = (flowMeasureCount % 2 === 0) ? highpreviewWheel : lowpreviewWheel;
+        } else if (randomAssignment === 2) {
+            previewWheel = (flowMeasureCount % 2 === 0) ? lowpreviewWheel : highpreviewWheel;
+        }
     
         // Update the preamble with the dynamic round text
         trial.preamble = `
             <div style='padding-top: 50px; width: 900px; font-size:16px'> 
+            <p> Throughout Round ${roundText} of spin the wheel, you spun the following wheel: <p>
+             <div>${previewWheel}</div>
                 <p>How immersed and engaged did you feel while spinning this wheel?</p>
                 <p>To report how immersed and engaged you felt, please answer the following questions.</p>
             </div>`;
@@ -801,6 +812,7 @@ p.flowMeasure = {
                 required: true,
             }
         ];
+        flowMeasureCount++; 
     },
     on_finish: function(data) {
         data.arrangement = currentVariables.arrangement;
@@ -1286,7 +1298,7 @@ if (randomAssignment == 1) {
    timeline = [
     exp.consent,
     exp.intro_preChk,
-      highexamples, 
+    highexamples, 
      exp.intro_toFirst,
       hightask,  
       exp.flowMeasure, 
